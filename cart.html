@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>장바구니 · 비브아 Vivoir (리뉴얼 시안)</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="stylesheet" href="style.css" />
+<script>try{if(sessionStorage.getItem('vivoirIntroSeen'))document.documentElement.classList.add('intro-seen');else sessionStorage.setItem('vivoirIntroSeen','1');}catch(e){}</script>
+</head>
+<body>
+
+<span id="top"></span>
+
+<!-- 비브아 로고 정의: 한 번만 정의하고 인트로·헤더·푸터에서 <use>로 재사용 -->
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="vivoirLogo" viewBox="0 0 2235 395" fill="currentColor">
+    <path d="M57.25,0c11.63,0,22.35,6.31,27.99,16.49l147.3,265.81,8.81,16.11c4.17,7.63,15.13,7.63,19.3,0l8.87-16.23L416.76,16.49c5.64-10.18,16.36-16.49,27.99-16.49h45.26c9.09,0,14.87,9.73,10.51,17.7l-184.73,337.89c-27.99,51.2-101.58,51.2-129.57,0L1.48,17.7C-2.81,9.85,2.72.3,11.56,0h.42s45.26,0,45.26,0Z"/>
+    <path d="M729.25,0c11.63,0,22.35,6.31,27.99,16.49l147.3,265.81,8.81,16.11c4.17,7.63,15.13,7.63,19.3,0l8.87-16.23L1088.76,16.49c5.64-10.18,16.36-16.49,27.99-16.49h45.26c9.09,0,14.87,9.73,10.51,17.7l-184.74,337.89c-27.99,51.2-101.58,51.2-129.57,0L673.48,17.7c-4.29-7.85,1.24-17.4,10.08-17.69h.42s45.26,0,45.26,0Z"/>
+    <path d="M544,28c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v24c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-24Z"/>
+    <path d="M1725,28c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v24c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-24Z"/>
+    <path d="M544,146c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v220c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-220Z"/>
+    <path d="M1725,146c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v220c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-220Z"/>
+    <path d="M1648.08,62.05c-10.94-19.85-27.29-36.19-47.13-47.13-27.06-14.92-63.02-14.92-134.95-14.92h-87.07c-63.32.06-96.52.93-121.88,14.92-19.84,10.94-36.19,27.29-47.13,47.13-14.92,27.05-14.92,63.02-14.92,134.95s0,107.89,14.92,134.95l.52.93c10.93,19.43,27.08,35.43,46.61,46.21l1.28.69c25.2,13.33,58.34,14.17,120.6,14.23h13.07s74,0,74,0c70.81,0,106.76,0,133.67-14.23l1.28-.69c19.53-10.77,35.68-26.78,46.61-46.21l.52-.93c14.92-27.05,14.92-63.02,14.92-134.95s0-107.89-14.92-134.95ZM1581.44,274.35c-.7,7.95-1.57,12.73-2.29,15.61-.35,1.37-.64,2.21-.81,2.66-.17.43-.28.63-.31.7-3.65,6.62-9.1,12.06-15.71,15.71-.07.04-.27.14-.7.31-.45.17-1.29.46-2.66.81-2.88.73-7.66,1.6-15.61,2.29-17.08,1.49-39.97,1.56-77.35,1.56h-74c-37.38,0-60.27-.07-77.35-1.56-7.95-.69-12.73-1.56-15.61-2.29-1.37-.35-2.21-.64-2.66-.81-.43-.17-.63-.27-.7-.31-6.61-3.65-12.06-9.09-15.71-15.71-.03-.07-.14-.26-.31-.7-.17-.45-.46-1.29-.81-2.66-.72-2.88-1.59-7.66-2.29-15.61-1.49-17.08-1.56-39.97-1.56-77.35s.07-60.27,1.56-77.35c.7-7.95,1.57-12.73,2.29-15.61.35-1.37.64-2.21.81-2.66.17-.43.28-.63.31-.7,3.65-6.62,9.1-12.06,15.71-15.71.07-.04.27-.14.7-.31.45-.17,1.29-.46,2.66-.81,2.88-.73,7.66-1.6,15.61-2.29,17.08-1.49,39.97-1.56,77.35-1.56h74c37.38,0,60.27.07,77.35,1.56,7.95.69,12.73,1.56,15.61,2.29,1.37.35,2.21.64,2.66.81.43.17.63.27.7.31,6.61,3.65,12.06,9.1,15.71,15.71.03.07.14.26.31.7.17.45.46,1.29.81,2.66.72,2.88,1.59,7.66,2.29,15.61,1.49,17.08,1.56,39.97,1.56,77.35s-.07,60.27-1.56,77.35Z"/>
+    <path d="M2235,62.16c0,13.23,0,19.85-4.09,23.96-4.09,4.11-10.67,4.11-23.83,4.11h-164.55c-37.61,0-56.41,0-68.09,11.75-11.69,11.75-11.69,30.65-11.69,68.46v196.5c0,13.23,0,19.85-4.09,23.96-4.09,4.11-10.67,4.11-23.83,4.11h-33.91c-13.16,0-19.74,0-23.83-4.11-4.09-4.11-4.09-10.73-4.09-23.96v-146.37c0-103.97,0-155.96,32.13-188.26C1937.26,0,1988.97,0,2092.39,0h114.69c13.16,0,19.74,0,23.83,4.11,4.09,4.11,4.09,10.73,4.09,23.96v34.09Z"/>
+  </symbol>
+</svg>
+
+<!-- Intro animation (첫 화면) -->
+<div id="intro" aria-hidden="true">
+  <svg class="intro-logo" viewBox="0 0 2235 395" aria-hidden="true"><use href="#vivoirLogo"/></svg>
+  <div class="intro-en">PLAY EASY,<br>FEEL GOOD</div>
+  <p class="intro-ko">쉽게, 즐겁게, 비브아답게</p>
+</div>
+
+<!-- Header (서브페이지: 항상 밝은 배경 solid) -->
+<header class="gnb solid" id="gnb">
+  <!-- 프로모션 띠 (시안) -->
+  <div class="promo-bar">
+    <a class="wrap promo-inner" href="signup.html">
+      <span>신규 회원가입 시 <b>10% 할인 쿠폰</b> + 3만원 이상 무료배송</span>
+    </a>
+  </div>
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <a href="login.html">로그인</a>
+      <a href="signup.html">회원가입</a>
+      <a href="notice.html">공지사항</a>
+      <a href="qna.html">Q&amp;A</a>
+    </div>
+  </div>
+  <div class="wrap gnb-inner">
+    <a href="index.html" class="logo" aria-label="비브아 vivoir 홈"><svg viewBox="0 0 2235 395" aria-hidden="true"><use href="#vivoirLogo"/></svg></a>
+    <nav class="nav">
+      <a href="index.html#story">브랜드</a>
+      <a href="index.html#best">베스트</a>
+      <a href="products.html">전체 제품</a>
+      <a href="index.html#routine">루틴</a>
+      <a href="reviews.html">리뷰</a>
+    </nav>
+    <div class="gnb-util">
+      <button class="icon-btn util-extra" aria-label="검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <a class="icon-btn util-extra" href="mypage.html" aria-label="마이페이지"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></a>
+      <a class="icon-btn" id="cartBtn" href="cart.html" aria-current="page" aria-label="장바구니"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12L6 6Z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg><span class="cart-count" id="cartCount">0</span></a>
+      <button class="icon-btn menu-toggle" aria-label="메뉴"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <!-- 검색 패널 (시안) -->
+  <div class="search-panel" id="searchPanel">
+    <div class="wrap search-panel-inner">
+      <span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+      <input type="search" class="search-field" id="searchInput" placeholder="찾으시는 제품이나 키워드를 입력해 보세요" autocomplete="off" aria-label="사이트 검색" />
+      <button type="button" class="search-close" aria-label="검색 닫기"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<nav class="mnav" id="mnav">
+  <a href="index.html#story">브랜드</a>
+  <a href="index.html#best">베스트</a>
+  <a href="products.html">전체 제품</a>
+  <a href="index.html#routine">루틴</a>
+  <a href="reviews.html">리뷰</a>
+  <a href="login.html">로그인</a>
+  <a href="signup.html">회원가입</a>
+  <a href="notice.html">공지사항</a>
+  <a href="qna.html">Q&amp;A</a>
+</nav>
+
+<main class="subtop">
+
+  <!-- Breadcrumb -->
+  <div class="wrap">
+    <nav class="crumb" aria-label="현재 위치">
+      <a href="index.html">홈</a><span class="csep">/</span>
+      <span class="here">장바구니</span>
+    </nav>
+  </div>
+
+  <!-- Page hero -->
+  <div class="wrap">
+    <header class="page-hero">
+      <span class="eyebrow">Shopping Cart</span>
+      <h1>장바구니</h1>
+      <p class="lead">담아두신 제품을 확인하세요. 5만 원 이상 구매 시 무료배송이에요.</p>
+    </header>
+  </div>
+
+  <!-- Cart -->
+  <section style="padding-top:clamp(8px,1.5vw,20px);">
+    <div class="wrap">
+      <div class="cart-wrap" id="cartWrap">
+        <div class="cart-main">
+          <div class="cart-list" id="cartList"></div>
+        </div>
+        <aside class="cart-aside">
+          <div class="cart-sum">
+            <h3>결제 금액</h3>
+            <div class="sum-row"><span>총 상품금액</span><b id="sumGoods">0원</b></div>
+            <div class="sum-row"><span>상품 할인</span><b class="minus" id="sumDisc">0원</b></div>
+            <div class="sum-row"><span>배송비</span><b id="sumShip">무료</b></div>
+            <div class="sum-total"><span>결제예정금액</span><b id="sumTotal">0원</b></div>
+            <button class="btn btn-block" id="checkout">주문하기</button>
+            <p class="sum-note">본 페이지는 리뉴얼 시안으로,<br>실제 결제는 진행되지 않습니다.</p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Empty state -->
+      <div class="cart-empty" id="cartEmpty" hidden>
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt-4);margin-bottom:20px;"><path d="M6 6h15l-1.5 9h-12L6 6Z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+        <p>장바구니가 비어 있어요.</p>
+        <a href="products.html" class="btn">제품 둘러보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 함께 사면 좋아요 -->
+  <section class="band">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">You May Also Like</span>
+        <h2>이 제품과 함께 쓰면 좋아요</h2>
+      </div>
+      <div class="pgrid" id="addonGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" aria-label="비브아 vivoir 홈"><svg viewBox="0 0 2235 395" aria-hidden="true"><use href="#vivoirLogo"/></svg></a>
+        <b>카카오톡 상담</b>
+        <p>평일 10:00 – 17:00 (점심 12:30 – 13:30)<br>주말·공휴일 휴무</p>
+        <button class="btn-outline btn">카카오톡 문의하기</button>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="products.html">전체 제품</a></li><li><a href="index.html#best">베스트</a></li><li><a href="event.html">이벤트</a></li><li><a href="cart.html">장바구니</a></li></ul></div>
+      <div><h4>Support</h4><ul><li><a href="notice.html">공지사항</a></li><li><a href="support.html#faq">자주 묻는 질문</a></li><li><a href="qna.html">Q&amp;A 문의</a></li><li><a href="support.html#delivery">배송 안내</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">브랜드 소개</a></li><li><a href="reviews.html">리뷰</a></li><li><a href="#">이용약관</a></li><li><a href="#">개인정보처리방침</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <p class="info">
+        (주)비브아 · 대표 홍길동 · 서울특별시 강남구<br>
+        사업자등록번호 146-85-02280 · 통신판매업신고 제2026-서울강남-0000호<br>
+        © 2026 VIVOIR. ALL RIGHTS RESERVED. · 본 페이지는 리뉴얼 시안입니다.
+      </p>
+      <div class="sns">
+        <a href="#" aria-label="인스타그램"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="유튜브"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="블로그"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="M8 14c0-2 1-3 3-3s3 1 3 3M14 11v3"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="kakao" aria-label="카카오톡 상담"><svg width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6-.2.6-.7 2.3-.8 2.7 0 0 0 .2.1.3h.3c.4-.1 2.6-1.7 3.5-2.4.5.1 1.1.1 1.7.1 5 0 9-3.2 9-7.1S17 4 12 4Z"/></svg></a>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- 데이터 ---------- */
+let CART = [
+  {name:'수면루틴 마사지 베개', opt:'미드나잇 네이비', img:'https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg', now:129000, org:250000, qty:1},
+  {name:'미니 포켓 마사지건', opt:'클라우드 아이보리', img:'https://vivoir.kr/web/product/medium/202602/b80f5247cb9511a172554b223da5c4c8.jpg', now:69000, org:190000, qty:1},
+  {name:'손모아 장갑 손 마사지기', opt:'프리 사이즈', img:'https://vivoir.kr/web/product/medium/202602/24e4bf9797a7dc6aa74efde10c57e87f.jpg', now:89000, org:200000, qty:2},
+];
+const ADDONS = [
+  {name:'목 어깨 베개 마사지기', img:'https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg', dc:50, now:'109,000', org:'219,000', rate:'4.9', tag:null},
+  {name:'프로 딥티슈 마사지건', img:'https://vivoir.kr/web/product/medium/202602/c799180274f77632b0b6df6a98fe4e04.jpg', dc:45, now:'159,000', org:'290,000', rate:'4.8', tag:'Hot'},
+  {name:'데일리 풋 마사지기', img:'https://vivoir.kr/web/product/medium/202602/74f395fcd4e90e683a3986f35b9b9e9b.jpg', dc:45, now:'99,000', org:'180,000', rate:'4.7', tag:null},
+];
+
+/* ---------- 인트로(첫 화면 애니메이션) ---------- */
+(() => {
+  const intro = document.getElementById('intro');
+  if(!intro) return;
+  const dismiss = () => {
+    intro.style.transition = 'opacity .45s var(--ease)';
+    intro.style.opacity = '0';
+    intro.style.pointerEvents = 'none';
+    setTimeout(() => { if(intro.parentNode) intro.remove(); }, 480);
+  };
+  intro.addEventListener('click', dismiss, {once:true});
+  setTimeout(() => { if(intro.parentNode) intro.remove(); }, 4150);
+})();
+
+/* ---------- 헤더 스크롤 ---------- */
+const gnb = document.getElementById('gnb');
+if(gnb) addEventListener('scroll', ()=> gnb.classList.toggle('scrolled', scrollY > 10), {passive:true});
+/* 검색 패널 토글 (시안) */
+(() => {
+  const g = document.getElementById('gnb');
+  const panel = document.getElementById('searchPanel');
+  const btn = g && g.querySelector('.gnb-util [aria-label="검색"]');
+  if(!g || !panel || !btn) return;
+  const input = panel.querySelector('.search-field');
+  const closeBtn = panel.querySelector('.search-close');
+  const open = () => { g.classList.add('searching'); setTimeout(() => input && input.focus(), 80); };
+  const close = () => g.classList.remove('searching');
+  btn.addEventListener('click', e => { e.preventDefault(); g.classList.contains('searching') ? close() : open(); });
+  closeBtn && closeBtn.addEventListener('click', close);
+  input && input.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); const q = input.value.trim(); if(q && typeof showToast === 'function') showToast('“' + q + '” 검색은 준비 중인 시안이에요'); close(); }
+    else if(e.key === 'Escape'){ close(); input.blur(); }
+  });
+  document.addEventListener('click', e => { if(g.classList.contains('searching') && !g.contains(e.target)) close(); });
+})();
+
+/* ---------- 모바일 메뉴 ---------- */
+const mnav = document.getElementById('mnav');
+const menuToggle = document.querySelector('.menu-toggle');
+if(menuToggle && mnav){
+  menuToggle.addEventListener('click', ()=> mnav.classList.toggle('open'));
+  mnav.addEventListener('click', e=>{ if(e.target.tagName === 'A') mnav.classList.remove('open'); });
+  addEventListener('scroll', ()=>{ if(mnav.classList.contains('open')) mnav.classList.remove('open'); }, {passive:true});
+}
+
+/* ---------- 토스트 ---------- */
+const cartCount = document.getElementById('cartCount');
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  if(!toast) return;
+  toast.textContent = msg; toast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>toast.classList.remove('show'),1700);
+}
+const fmt = n => n.toLocaleString('ko-KR');
+
+/* ---------- 장바구니 렌더 + 합계 ---------- */
+(() => {
+  const list = document.getElementById('cartList');
+  const wrap = document.getElementById('cartWrap');
+  const empty = document.getElementById('cartEmpty');
+  if(!list) return;
+  const SHIP_FREE = 50000;
+
+  function totals(){
+    const goods = CART.reduce((s,p)=> s + p.org * p.qty, 0);
+    const pay   = CART.reduce((s,p)=> s + p.now * p.qty, 0);
+    const disc  = goods - pay;
+    const qty   = CART.reduce((s,p)=> s + p.qty, 0);
+    return {goods, pay, disc, qty};
+  }
+
+  function syncSummary(){
+    const t = totals();
+    const set = (id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+    set('sumGoods', fmt(t.goods)+'원');
+    set('sumDisc', '-'+fmt(t.disc)+'원');
+    set('sumShip', t.pay >= SHIP_FREE || t.pay === 0 ? '무료' : fmt(3000)+'원');
+    const ship = (t.pay >= SHIP_FREE || t.pay === 0) ? 0 : 3000;
+    set('sumTotal', fmt(t.pay + ship)+'원');
+    if(cartCount) cartCount.textContent = t.qty;
+  }
+
+  function render(){
+    if(CART.length === 0){
+      if(wrap) wrap.style.display = 'none';
+      if(empty) empty.hidden = false;
+      if(cartCount) cartCount.textContent = 0;
+      return;
+    }
+    list.innerHTML = CART.map((p,i) => `
+      <div class="cart-item" data-i="${i}">
+        <img class="ci-thumb" src="${p.img}" alt="${p.name}" />
+        <div class="ci-info">
+          <div class="ci-name">${p.name}</div>
+          <div class="ci-opt">옵션: ${p.opt}</div>
+          <div class="qty sm" role="group" aria-label="수량">
+            <button class="ci-minus" aria-label="수량 줄이기">−</button>
+            <input class="ci-qty" type="text" value="${p.qty}" readonly aria-label="수량" />
+            <button class="ci-plus" aria-label="수량 늘리기">+</button>
+          </div>
+        </div>
+        <div class="ci-price">${fmt(p.now * p.qty)}원</div>
+        <button class="ci-remove" aria-label="삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>`).join('');
+    syncSummary();
+  }
+
+  list.addEventListener('click', e => {
+    const item = e.target.closest('.cart-item');
+    if(!item) return;
+    const i = +item.dataset.i;
+    if(e.target.closest('.ci-plus')){ CART[i].qty = Math.min(99, CART[i].qty + 1); render(); }
+    else if(e.target.closest('.ci-minus')){ CART[i].qty = Math.max(1, CART[i].qty - 1); render(); }
+    else if(e.target.closest('.ci-remove')){ CART.splice(i,1); showToast('상품을 삭제했어요'); render(); }
+  });
+
+  const checkout = document.getElementById('checkout');
+  if(checkout) checkout.addEventListener('click', ()=> showToast('주문 기능은 준비 중인 시안이에요'));
+
+  render();
+})();
+
+/* ---------- 추천(애드온) 그리드 ---------- */
+(() => {
+  const grid = document.getElementById('addonGrid');
+  if(!grid) return;
+  grid.innerHTML = ADDONS.map(p => `
+    <a href="product.html" class="pcard">
+      <div class="pthumb">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" />
+        ${p.tag ? `<span class="ptag">${p.tag}</span>` : ''}
+        <button class="padd" aria-label="장바구니 담기"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <div class="pbody">
+        <h3 class="pname">${p.name}</h3>
+        <div class="pprice"><span class="dc">${p.dc}%</span><span class="now">${p.now}원</span><span class="org">${p.org}</span></div>
+      </div>
+    </a>`).join('');
+  grid.classList.add('in');
+  grid.addEventListener('click', e => {
+    const add = e.target.closest('.padd');
+    if(add){ e.preventDefault(); showToast('장바구니에 담았어요'); }
+  });
+})();
+
+/* ---------- 스크롤 등장 ---------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold:.1, rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

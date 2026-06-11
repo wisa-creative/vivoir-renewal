@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>비브아 Vivoir · 프리미엄 홈케어 (리뉴얼 시안)</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&display=swap" />
+<link rel="stylesheet" href="style.css" />
+<script>try{if(sessionStorage.getItem('vivoirIntroSeen'))document.documentElement.classList.add('intro-seen');else sessionStorage.setItem('vivoirIntroSeen','1');}catch(e){}</script>
+</head>
+<body>
+
+<span id="top"></span>
+
+<!-- 비브아 로고 정의: 한 번만 정의하고 인트로·헤더·푸터에서 <use>로 재사용 -->
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="vivoirLogo" viewBox="0 0 2235 395" fill="currentColor">
+    <path d="M57.25,0c11.63,0,22.35,6.31,27.99,16.49l147.3,265.81,8.81,16.11c4.17,7.63,15.13,7.63,19.3,0l8.87-16.23L416.76,16.49c5.64-10.18,16.36-16.49,27.99-16.49h45.26c9.09,0,14.87,9.73,10.51,17.7l-184.73,337.89c-27.99,51.2-101.58,51.2-129.57,0L1.48,17.7C-2.81,9.85,2.72.3,11.56,0h.42s45.26,0,45.26,0Z"/>
+    <path d="M729.25,0c11.63,0,22.35,6.31,27.99,16.49l147.3,265.81,8.81,16.11c4.17,7.63,15.13,7.63,19.3,0l8.87-16.23L1088.76,16.49c5.64-10.18,16.36-16.49,27.99-16.49h45.26c9.09,0,14.87,9.73,10.51,17.7l-184.74,337.89c-27.99,51.2-101.58,51.2-129.57,0L673.48,17.7c-4.29-7.85,1.24-17.4,10.08-17.69h.42s45.26,0,45.26,0Z"/>
+    <path d="M544,28c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v24c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-24Z"/>
+    <path d="M1725,28c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v24c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-24Z"/>
+    <path d="M544,146c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v220c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-220Z"/>
+    <path d="M1725,146c0-13.2,0-19.8,4.1-23.9,4.1-4.1,10.7-4.1,23.9-4.1h30c13.2,0,19.8,0,23.9,4.1,4.1,4.1,4.1,10.7,4.1,23.9v220c0,13.2,0,19.8-4.1,23.9-4.1,4.1-10.7,4.1-23.9,4.1h-30c-13.2,0-19.8,0-23.9-4.1-4.1-4.1-4.1-10.7-4.1-23.9v-220Z"/>
+    <path d="M1648.08,62.05c-10.94-19.85-27.29-36.19-47.13-47.13-27.06-14.92-63.02-14.92-134.95-14.92h-87.07c-63.32.06-96.52.93-121.88,14.92-19.84,10.94-36.19,27.29-47.13,47.13-14.92,27.05-14.92,63.02-14.92,134.95s0,107.89,14.92,134.95l.52.93c10.93,19.43,27.08,35.43,46.61,46.21l1.28.69c25.2,13.33,58.34,14.17,120.6,14.23h13.07s74,0,74,0c70.81,0,106.76,0,133.67-14.23l1.28-.69c19.53-10.77,35.68-26.78,46.61-46.21l.52-.93c14.92-27.05,14.92-63.02,14.92-134.95s0-107.89-14.92-134.95ZM1581.44,274.35c-.7,7.95-1.57,12.73-2.29,15.61-.35,1.37-.64,2.21-.81,2.66-.17.43-.28.63-.31.7-3.65,6.62-9.1,12.06-15.71,15.71-.07.04-.27.14-.7.31-.45.17-1.29.46-2.66.81-2.88.73-7.66,1.6-15.61,2.29-17.08,1.49-39.97,1.56-77.35,1.56h-74c-37.38,0-60.27-.07-77.35-1.56-7.95-.69-12.73-1.56-15.61-2.29-1.37-.35-2.21-.64-2.66-.81-.43-.17-.63-.27-.7-.31-6.61-3.65-12.06-9.09-15.71-15.71-.03-.07-.14-.26-.31-.7-.17-.45-.46-1.29-.81-2.66-.72-2.88-1.59-7.66-2.29-15.61-1.49-17.08-1.56-39.97-1.56-77.35s.07-60.27,1.56-77.35c.7-7.95,1.57-12.73,2.29-15.61.35-1.37.64-2.21.81-2.66.17-.43.28-.63.31-.7,3.65-6.62,9.1-12.06,15.71-15.71.07-.04.27-.14.7-.31.45-.17,1.29-.46,2.66-.81,2.88-.73,7.66-1.6,15.61-2.29,17.08-1.49,39.97-1.56,77.35-1.56h74c37.38,0,60.27.07,77.35,1.56,7.95.69,12.73,1.56,15.61,2.29,1.37.35,2.21.64,2.66.81.43.17.63.27.7.31,6.61,3.65,12.06,9.1,15.71,15.71.03.07.14.26.31.7.17.45.46,1.29.81,2.66.72,2.88,1.59,7.66,2.29,15.61,1.49,17.08,1.56,39.97,1.56,77.35s-.07,60.27-1.56,77.35Z"/>
+    <path d="M2235,62.16c0,13.23,0,19.85-4.09,23.96-4.09,4.11-10.67,4.11-23.83,4.11h-164.55c-37.61,0-56.41,0-68.09,11.75-11.69,11.75-11.69,30.65-11.69,68.46v196.5c0,13.23,0,19.85-4.09,23.96-4.09,4.11-10.67,4.11-23.83,4.11h-33.91c-13.16,0-19.74,0-23.83-4.11-4.09-4.11-4.09-10.73-4.09-23.96v-146.37c0-103.97,0-155.96,32.13-188.26C1937.26,0,1988.97,0,2092.39,0h114.69c13.16,0,19.74,0,23.83,4.11,4.09,4.11,4.09,10.73,4.09,23.96v34.09Z"/>
+  </symbol>
+</svg>
+
+<!-- Intro animation (첫 화면): 로고 → 비브아(합쳐짐) → VIVOIR → 비브아 → 블루 그라데이션, 스크롤로 해제 -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-blue"></div>
+  <div class="wm wm-logo"><svg viewBox="0 0 2235 395" aria-hidden="true"><use href="#vivoirLogo"/></svg></div>
+  <span class="wm wm-en">PLAY EASY, FEEL GOOD</span>
+  <span class="wm wm-ko">쉽게, 즐겁게, 비브아답게</span>
+  <!-- 충전 모션: 블루 화면 정착 후 에너지가 0→100% 차오름 (사이트 입장 = 완충) -->
+  <div class="wm wm-charge">
+    <div class="charge-box">
+      <span class="charge-label">나를 위한 충전</span>
+      <div class="charge-bar"><span class="charge-fill"></span></div>
+      <span class="charge-meta">Energy Refill <b class="charge-pct">0%</b></span>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="gnb" id="gnb">
+  <!-- 프로모션 띠 (시안) -->
+  <div class="promo-bar">
+    <a class="wrap promo-inner" href="signup.html">
+      <span>신규 회원가입 시 <b>10% 할인 쿠폰</b> + 3만원 이상 무료배송</span>
+    </a>
+  </div>
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <a href="login.html">로그인</a>
+      <a href="signup.html">회원가입</a>
+      <a href="notice.html">공지사항</a>
+      <a href="qna.html">Q&amp;A</a>
+    </div>
+  </div>
+  <div class="wrap gnb-inner">
+    <a href="#top" class="logo" aria-label="비브아 vivoir 홈"><svg viewBox="0 0 2235 395" aria-hidden="true"><use href="#vivoirLogo"/></svg></a>
+    <nav class="nav">
+      <a href="#story">브랜드</a>
+      <a href="#featured">베스트</a>
+      <a href="products.html">전체 제품</a>
+      <a href="#routine">루틴</a>
+      <a href="#reviews">리뷰</a>
+    </nav>
+    <div class="gnb-util">
+      <button class="icon-btn util-extra" aria-label="검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <a class="icon-btn util-extra" href="mypage.html" aria-label="마이페이지"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></a>
+      <a class="icon-btn" id="cartBtn" href="cart.html" aria-label="장바구니"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12L6 6Z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg><span class="cart-count" id="cartCount">0</span></a>
+      <button class="icon-btn menu-toggle" aria-label="메뉴"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <!-- 검색 패널 (시안) -->
+  <div class="search-panel" id="searchPanel">
+    <div class="wrap search-panel-inner">
+      <span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+      <input type="search" class="search-field" id="searchInput" placeholder="찾으시는 제품이나 키워드를 입력해 보세요" autocomplete="off" aria-label="사이트 검색" />
+      <button type="button" class="search-close" aria-label="검색 닫기"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<nav class="mnav" id="mnav">
+  <a href="#story">브랜드</a>
+  <a href="#featured">베스트</a>
+  <a href="products.html">전체 제품</a>
+  <a href="#routine">루틴</a>
+  <a href="#reviews">리뷰</a>
+  <a href="login.html">로그인</a>
+  <a href="signup.html">회원가입</a>
+  <a href="notice.html">공지사항</a>
+  <a href="qna.html">Q&amp;A</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <img id="hImg" class="hero-img" src="https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg" alt="비브아 대표 제품" />
+  <div class="hero-overlay">
+    <div class="wrap" style="width:100%;">
+      <div class="hero-content">
+        <div class="kw-row" id="hKw"></div>
+        <h1 id="hTitle">하루의 끝,<br>깊은 잠으로.</h1>
+        <p id="hSub">매일의 피로를 가장 가까운 곳에서 풀어주는 비브아. 검증된 본사 정품으로 온 가족의 회복을 디자인합니다.</p>
+        <a href="#featured" class="tlink light">자세히 보기 <span class="ar">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap hero-nav-wrap" style="position:absolute;inset:0;pointer-events:none;">
+    <div class="hero-nav" style="pointer-events:auto;">
+      <span class="hero-idx"><b id="hIdx">01</b> / 03</span>
+      <div class="hero-dots" id="heroDots">
+        <button class="on" aria-label="슬라이드 1"></button>
+        <button aria-label="슬라이드 2"></button>
+        <button aria-label="슬라이드 3"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Manifesto -->
+<section id="story" class="reveal">
+  <div class="wrap manifesto">
+    <span class="eyebrow">Our Philosophy</span>
+    <h2>회복은 멀리 있지 않습니다.<br><span class="mute">매일의 가장 가까운 곳</span>에서 <b>시작됩니다.</b></h2>
+    <p class="sub">비브아는 일상 속 작은 휴식을 위한 홈케어 브랜드입니다. 목과 어깨, 손과 다리 — 하루를 버틴 몸의 가장 무거운 곳을, 집에서 가장 편안하게 돌봅니다.</p>
+  </div>
+</section>
+
+<!-- Marquee strip -->
+<div class="marquee bleed" aria-hidden="true">
+  <div class="marquee-track" id="marquee"></div>
+</div>
+
+<!-- Product gallery -->
+<section id="products" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">All Products</span>
+      <h2>오늘의 회복을 고르세요</h2>
+      <p class="desc">전 상품 본사 정품 · 무료배송 · 1년 무상 A/S</p>
+    </div>
+    <div class="pgrid reveal" id="grid"></div>
+    <div class="more-row reveal"><a href="products.html" class="btn-outline btn">제품 더보기</a></div>
+  </div>
+</section>
+
+<!-- Best seller spotlight -->
+<section id="best" class="spotlight reveal">
+  <div class="wrap sl-grid">
+    <a class="sl-media" href="product.html">
+      <img src="https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg" alt="수면루틴 마사지 베개" />
+      <span class="sl-rank">Naver 마사지베개 1위</span>
+    </a>
+    <div class="sl-body">
+      <span class="eyebrow">Best Seller</span>
+      <h2>매일 가장 많이 찾는<br>수면루틴 마사지 베개</h2>
+      <p>“소리도 조용하고 매일 손이 가요.” 가장 많은 분들이 잠들기 전 회복 루틴으로 함께하는 비브아의 대표 제품이에요. 베개 속 부드러운 진동이 목과 어깨의 긴장을 천천히 풀어줍니다.</p>
+      <ul class="sl-proof">
+        <li><b>★ 4.8</b><span>실사용 평점</span></li>
+        <li><b>100%</b><span>본사 정품 보장</span></li>
+        <li><b>1년</b><span>무상 A/S 보증</span></li>
+      </ul>
+      <div class="sl-price"><span class="now">129,000원</span><span class="org">250,000원</span></div>
+      <div class="sl-cta">
+        <a href="product.html" class="btn">지금 만나보기</a>
+        <a href="products.html" class="tlink">다른 제품 보기 <span class="ar">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats band -->
+<section class="stats-band band reveal">
+  <div class="wrap stats">
+    <div class="stat"><b class="num" data-to="4.9" data-dec="1">0</b><span>평균 만족도 평점</span></div>
+    <div class="stat"><b class="num" data-to="6900" data-suffix="+">0</b><span>누적 구매 고객</span></div>
+    <div class="stat"><b class="num" data-to="100" data-suffix="%">0</b><span>본사 정품 보장</span></div>
+  </div>
+</section>
+
+<!-- Editorial feature blocks -->
+<section id="featured">
+  <div class="wrap">
+    <div class="editorial">
+
+      <article class="edi reveal">
+        <a class="e-media" href="product.html">
+          <img src="https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg" alt="비브아 수면루틴 마사지 베개" />
+          <span class="e-index">01</span>
+        </a>
+        <div class="e-body">
+          <div class="kw-row"><span class="kw">Deep Sleep</span><span class="kw">Quiet</span><span class="kw">Soft Touch</span></div>
+          <h3>하루의 끝을,<br>가장 깊은 잠으로</h3>
+          <p>베개 속 부드러운 진동이 목과 어깨의 긴장을 천천히 풀어줘요. 누워서 보내는 마지막 15분을, 가장 깊은 회복의 시간으로 바꿔 드립니다.</p>
+          <a href="product.html" class="tlink">수면루틴 마사지 베개 <span class="ar">→</span></a>
+        </div>
+      </article>
+
+      <article class="edi flip reveal">
+        <a class="e-media" href="product.html">
+          <img src="https://vivoir.kr/web/product/medium/202602/b80f5247cb9511a172554b223da5c4c8.jpg" alt="비브아 미니 포켓 마사지건" />
+          <span class="e-index">02</span>
+        </a>
+        <div class="e-body">
+          <div class="kw-row"><span class="kw">Portable</span><span class="kw">Powerful</span><span class="kw">2026 New</span></div>
+          <h3>어디서든,<br>전문가의 손길</h3>
+          <p>손바닥에 쏙 들어오는 미니 포켓 마사지건. 사무실에서, 여행지에서, 필요한 순간 바로 꺼내 굳은 근육을 시원하게 풀어 보세요.</p>
+          <a href="product.html" class="tlink">미니 포켓 마사지건 <span class="ar">→</span></a>
+        </div>
+      </article>
+
+      <article class="edi reveal">
+        <a class="e-media" href="product.html">
+          <img src="https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg" alt="비브아 목 어깨 베개 마사지기" />
+          <span class="e-index">03</span>
+        </a>
+        <div class="e-body">
+          <div class="kw-row"><span class="kw">Heat</span><span class="kw">3D Knead</span><span class="kw">Daily Care</span></div>
+          <h3>굳은 어깨를,<br>부드럽게</h3>
+          <p>목과 어깨를 감싸는 설계로 종일 쌓인 피로를 풀어줘요. 따뜻한 온열과 입체적인 주무름으로 매일의 컨디션을 한결 가볍게.</p>
+          <a href="product.html" class="tlink">목 어깨 베개 마사지기 <span class="ar">→</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- For-you recommend -->
+<section id="recommend" class="band reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">For You</span>
+      <h2>이런 분께 추천해요</h2>
+      <p class="desc">하루의 피로가 쌓이는 곳은 사람마다 다르니까요.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></div>
+        <h4>잠들기까지<br>오래 뒤척이는 분</h4>
+        <p>자기 전 15분의 진동 루틴으로 몸의 긴장을 풀고 더 편안하게 잠들어 보세요.</p>
+        <a href="product.html" class="tlink">수면루틴 베개 <span class="ar">→</span></a>
+      </div>
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20.5h8M12 16.5v4"/></svg></div>
+        <h4>하루 종일<br>앉아서 일하는 분</h4>
+        <p>굳은 목과 어깨를 온열과 입체 주무름으로 그때그때 가볍게 풀어줘요.</p>
+        <a href="product.html" class="tlink">목 어깨 베개 <span class="ar">→</span></a>
+      </div>
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10M12 10V4.5a1.5 1.5 0 0 1 3 0V11M15 11V6.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6 6 6 0 0 1-5.2-3l-2.3-4a1.6 1.6 0 0 1 2.5-2L9 12"/></svg></div>
+        <h4>손목·손이<br>자주 무거운 분</h4>
+        <p>장갑처럼 끼면 손가락 마디까지 부드럽게 감싸 하루의 피로를 풀어줘요.</p>
+        <a href="product.html" class="tlink">손모아 장갑 <span class="ar">→</span></a>
+      </div>
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8"/><rect x="2.5" y="7.5" width="19" height="4.5" rx="1"/><path d="M12 7.5V21M12 7.5S10.5 3.5 8 4.2 12 7.5 12 7.5ZM12 7.5s1.5-4 4-3.3S12 7.5 12 7.5Z"/></svg></div>
+        <h4>부모님 선물을<br>고민하는 분</h4>
+        <p>매일 쓰시는 선물이 좋으니까. 부모님이 가장 오래 곁에 두시는 효도 베스트예요.</p>
+        <a href="#best" class="tlink">베스트 보기 <span class="ar">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Parallax statement -->
+<section class="parallax bleed reveal" aria-label="브랜드 무드">
+  <div class="parallax-bg" id="pxBg" style="background-image:url('https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg');"></div>
+  <div class="parallax-content">
+    <span class="eyebrow">Vivoir Moment</span>
+    <h2>가장 가까운 곳에서,<br>매일을 회복합니다.</h2>
+    <a href="products.html" class="tlink light">제품 둘러보기 <span class="ar">→</span></a>
+  </div>
+</section>
+
+<!-- Routine -->
+<section id="routine" class="band reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Daily Routine</span>
+      <h2>하루 15분, 회복의 루틴</h2>
+    </div>
+    <div class="routine">
+      <div class="step"><span class="snum">STEP 01</span><span class="sline"></span><h4>편하게 자리잡기</h4><p>침대, 소파, 책상 어디서든. 가장 편안한 자세를 찾아 몸의 긴장을 내려놓아요.</p></div>
+      <div class="step"><span class="snum">STEP 02</span><span class="sline"></span><h4>원하는 부위에</h4><p>목·어깨·손·등·다리까지. 오늘 가장 무거운 곳에 비브아를 가만히 올려두세요.</p></div>
+      <div class="step"><span class="snum">STEP 03</span><span class="sline"></span><h4>15분의 회복</h4><p>부드러운 진동에 몸을 맡기는 15분. 매일 반복하면 어느새 나만의 루틴이 됩니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Real Reviews</span>
+      <h2>고객님들의 이야기</h2>
+      <p class="desc">누적 평점 ★ 4.9 · 검증된 구매 후기</p>
+    </div>
+  </div>
+  <div class="review-marquee reveal">
+    <div class="review-track" id="reviewTrack"></div>
+  </div>
+</section>
+
+<!-- Closing CTA -->
+<section class="cta-band reveal">
+  <div class="wrap">
+    <span class="eyebrow">Start Your Routine</span>
+    <h2>오늘, 가까운 사람에게<br>회복을 선물하세요.</h2>
+    <a href="products.html" class="btn">베스트 상품 보기</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="logo" aria-label="비브아 vivoir 홈"><svg viewBox="0 0 2235 395" aria-hidden="true"><use href="#vivoirLogo"/></svg></a>
+        <b>카카오톡 상담</b>
+        <p>평일 10:00 – 17:00 (점심 12:30 – 13:30)<br>주말·공휴일 휴무</p>
+        <button class="btn-outline btn">카카오톡 문의하기</button>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="products.html">전체 제품</a></li><li><a href="#featured">베스트</a></li><li><a href="#">세트 상품</a></li><li><a href="#">이벤트</a></li></ul></div>
+      <div><h4>Support</h4><ul><li><a href="notice.html">공지사항</a></li><li><a href="support.html#faq">자주 묻는 질문</a></li><li><a href="qna.html">Q&amp;A 문의</a></li><li><a href="support.html#delivery">배송 안내</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">브랜드 소개</a></li><li><a href="reviews.html">리뷰</a></li><li><a href="#">이용약관</a></li><li><a href="#">개인정보처리방침</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <p class="info">
+        (주)비브아 · 대표 홍길동 · 서울특별시 강남구<br>
+        사업자등록번호 146-85-02280 · 통신판매업신고 제2026-서울강남-0000호<br>
+        © 2026 VIVOIR. ALL RIGHTS RESERVED. · 본 페이지는 리뉴얼 시안입니다.
+      </p>
+      <div class="sns">
+        <a href="#" aria-label="인스타그램"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="유튜브"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="블로그"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="M8 14c0-2 1-3 3-3s3 1 3 3M14 11v3"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="kakao" aria-label="카카오톡 상담"><svg width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6-.2.6-.7 2.3-.8 2.7 0 0 0 .2.1.3h.3c.4-.1 2.6-1.7 3.5-2.4.5.1 1.1.1 1.7.1 5 0 9-3.2 9-7.1S17 4 12 4Z"/></svg></a>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- 인트로(첫 화면): 자동 시퀀스 재생 → 스크롤/인터랙션 시 옅어지며 해제 ---------- */
+(() => {
+  const intro = document.getElementById('intro');
+  if(!intro) return;
+  // 이미 봤거나(세션) 모션 최소화로 숨겨진 경우: 잠금/리스너 없이 정리만
+  if(getComputedStyle(intro).display === 'none'){ intro.remove(); return; }
+  const html = document.documentElement;
+  html.classList.add('intro-lock');                 // 스크롤 잠금
+  let done = false;
+  const dismiss = () => {
+    if(done) return; done = true;
+    intro.classList.add('fade');
+    html.classList.remove('intro-lock');
+    window.scrollTo(0, 0);
+    const cleanup = () => { if(intro.parentNode) intro.remove(); };
+    intro.addEventListener('transitionend', cleanup, {once:true});
+    setTimeout(cleanup, 1000);                        // 폴백 정리
+  };
+  intro.addEventListener('click', dismiss);
+  addEventListener('wheel', e => { if(e.deltaY > 4) dismiss(); }, {passive:true});
+  addEventListener('touchmove', dismiss, {passive:true});
+  addEventListener('keydown', e => { if(['ArrowDown','PageDown',' ','Spacebar','Enter'].includes(e.key)) dismiss(); });
+
+  /* 충전 모션: 블루 정착 후 에너지가 0→100% 차오름 (입장 = 완충) */
+  const cFill = intro.querySelector('.charge-fill');
+  const cPct  = intro.querySelector('.charge-pct');
+  const cBox  = intro.querySelector('.wm-charge');
+  const cLabel= intro.querySelector('.charge-label');
+  if(cFill && cPct){
+    const START = 6300, DUR = 1500, ease = t => 1 - Math.pow(1 - t, 3);
+    setTimeout(() => {
+      if(done) return;
+      let t0 = null;
+      const step = now => {
+        if(done) return;                                  // 일찍 해제 시 중단
+        if(t0 === null) t0 = now;                         // 첫 프레임에서 시작점 고정 (백그라운드 탭 복귀에도 정상 재생)
+        const t = Math.min(1, (now - t0) / DUR), e = ease(t);
+        cFill.style.width = (e * 100) + '%';
+        cPct.textContent  = Math.round(e * 100) + '%';
+        if(t < 1){ requestAnimationFrame(step); }
+        else {
+          if(cLabel) cLabel.textContent = '충전 완료';
+          if(cBox) cBox.classList.add('is-full');
+          setTimeout(dismiss, 850);                       // 완충 → 자동으로 홈으로 전환
+        }
+      };
+      requestAnimationFrame(step);
+    }, START);
+  }
+})();
+
+/* ---------- 제품 데이터 (vivoir.kr 실제 데이터) ---------- */
+const PRODUCTS = [
+  {name:'수면루틴 마사지 베개', img:'https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg', dc:48, now:'129,000', org:'250,000', rate:'4.8', cnt:'5,507', tag:'Naver 1위'},
+  {name:'손모아 장갑 손 마사지기', img:'https://vivoir.kr/web/product/medium/202602/24e4bf9797a7dc6aa74efde10c57e87f.jpg', dc:56, now:'89,000', org:'200,000', rate:'4.9', cnt:'1,073', tag:null},
+  {name:'미니 포켓 마사지건', img:'https://vivoir.kr/web/product/medium/202602/b80f5247cb9511a172554b223da5c4c8.jpg', dc:64, now:'69,000', org:'190,000', rate:'4.9', cnt:'13', tag:'2026 New'},
+  {name:'목 어깨 베개 마사지기', img:'https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg', dc:50, now:'109,000', org:'219,000', rate:'4.9', cnt:'315', tag:null},
+  {name:'휴대용 목 베개 마사지기', img:'https://vivoir.kr/web/product/medium/202602/c799180274f77632b0b6df6a98fe4e04.jpg', dc:48, now:'109,000', org:'210,000', rate:'4.9', cnt:'8', tag:null},
+  {name:'등허리 마사지기', img:'https://vivoir.kr/web/product/medium/202602/74f395fcd4e90e683a3986f35b9b9e9b.jpg', dc:58, now:'109,000', org:'260,000', rate:'4.9', cnt:'36', tag:null},
+];
+const REVIEWS = [
+  {q:'부모님 선물로 드렸는데 매일 쓰신다고 너무 좋아하세요. 소리도 조용하고 디자인도 예뻐요.', who:'김*은', meta:'수면루틴 마사지 베개'},
+  {q:'손목이 자주 시큰거렸는데 자기 전에 쓰니 한결 편해요. 충전도 오래가서 만족스러워요.', who:'이*아', meta:'손모아 장갑 손 마사지기'},
+  {q:'사무실 책상에 두고 틈틈이 목에 대요. 가볍고 휴대도 편해 가방에 늘 넣고 다녀요.', who:'박*현', meta:'휴대용 목 베개 마사지기'},
+  {q:'반신반의하며 샀는데 첫날부터 잠드는 게 달라졌어요. 이젠 안 쓰면 허전할 정도예요.', who:'정*윤', meta:'수면루틴 마사지 베개'},
+  {q:'온열 기능이 진짜 좋아요. 추운 날 어깨에 두르면 뭉친 게 사르르 풀려요. 강도 조절도 세심해요.', who:'최*라', meta:'목 어깨 마사지기'},
+  {q:'배송도 빠르고 정품 보증이 확실해서 믿음이 가요. AS 문의했더니 응대도 친절했어요.', who:'한*수', meta:'휴대용 미니 마사지건'},
+  {q:'하루 종일 모니터 보는 직업이라 늘 뻐근했는데, 점심시간마다 쓰니 오후가 한결 가벼워요.', who:'오*진', meta:'목 어깨 마사지기'},
+];
+const HERO = [
+  {idx:'01', kws:['Sleep Routine','Best Seller'], title:'하루의 끝,<br>깊은 잠으로.', sub:'베개 속 부드러운 진동이 목과 어깨의 긴장을 풀어줘요. 누워서 보내는 마지막 15분을 가장 깊은 회복의 시간으로.', img:'https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg'},
+  {idx:'02', kws:['On The Go','2026 New'], title:'어디서든,<br>전문가의 손길.', sub:'손바닥에 쏙 들어오는 미니 포켓 마사지건. 사무실에서, 여행지에서, 필요한 순간 바로 꺼내 쓰세요.', img:'https://vivoir.kr/web/product/medium/202602/b80f5247cb9511a172554b223da5c4c8.jpg'},
+  {idx:'03', kws:['Neck & Shoulder','Best Review'], title:'굳은 어깨를,<br>부드럽게.', sub:'목과 어깨를 감싸는 설계로 종일 쌓인 피로를 풀어줘요. 따뜻한 온열과 진동으로 매일의 컨디션을 가볍게.', img:'https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg'},
+];
+
+/* ---------- 마퀴(스크롤 띠) ---------- */
+(() => {
+  const words = [['쉽게',0],['PLAY EASY',1],['즐겁게',0],['FEEL GOOD',1],['비브아답게',0],['HOME RECOVERY',1],['매일의 회복',0],['DAILY CARE',1]];
+  const seg = words.map(([w,o]) => `<span class="${o?'out':''}">${w}</span><span class="sep">/</span>`).join('');
+  const m = document.getElementById('marquee');
+  if(m) m.innerHTML = seg + seg;
+})();
+
+/* ---------- 제품 렌더 ---------- */
+document.getElementById('grid').innerHTML = PRODUCTS.map(p => `
+  <a href="product.html" class="pcard">
+    <div class="pthumb">
+      <img src="${p.img}" alt="${p.name}" loading="lazy" />
+      ${p.tag ? `<span class="ptag">${p.tag}</span>` : ''}
+      <button class="padd" aria-label="장바구니 담기"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+    </div>
+    <div class="pbody">
+      <h3 class="pname">${p.name}</h3>
+      <div class="pprice"><span class="dc">${p.dc}%</span><span class="now">${p.now}원</span><span class="org">${p.org}</span></div>
+    </div>
+  </a>`).join('');
+
+(() => {
+  const card = r => `
+  <figure class="rev">
+    <div class="stars">★★★★★</div>
+    <blockquote>${r.q}</blockquote>
+    <figcaption><b>${r.who}</b> · ${r.meta}</figcaption>
+  </figure>`;
+  const half = REVIEWS.map(card).join('');
+  const t = document.getElementById('reviewTrack');
+  if(t) t.innerHTML = half + half;
+})();
+
+/* ---------- 장바구니 ---------- */
+let cart = 0;
+const cartCount = document.getElementById('cartCount');
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg; toast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>toast.classList.remove('show'),1600);
+}
+document.getElementById('grid').addEventListener('click', e => {
+  const add = e.target.closest('.padd');
+  if(add){ e.preventDefault(); cart++; cartCount.textContent = cart; showToast('장바구니에 담았어요'); }
+});
+
+/* ---------- 헤더 ---------- */
+const gnb = document.getElementById('gnb');
+addEventListener('scroll', ()=> gnb.classList.toggle('scrolled', scrollY > 10), {passive:true});
+/* 검색 패널 토글 (시안) */
+(() => {
+  const g = document.getElementById('gnb');
+  const panel = document.getElementById('searchPanel');
+  const btn = g && g.querySelector('.gnb-util [aria-label="검색"]');
+  if(!g || !panel || !btn) return;
+  const input = panel.querySelector('.search-field');
+  const closeBtn = panel.querySelector('.search-close');
+  const open = () => { g.classList.add('searching'); setTimeout(() => input && input.focus(), 80); };
+  const close = () => g.classList.remove('searching');
+  btn.addEventListener('click', e => { e.preventDefault(); g.classList.contains('searching') ? close() : open(); });
+  closeBtn && closeBtn.addEventListener('click', close);
+  input && input.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); const q = input.value.trim(); if(q && typeof showToast === 'function') showToast('“' + q + '” 검색은 준비 중인 시안이에요'); close(); }
+    else if(e.key === 'Escape'){ close(); input.blur(); }
+  });
+  document.addEventListener('click', e => { if(g.classList.contains('searching') && !g.contains(e.target)) close(); });
+})();
+
+/* ---------- 모바일 메뉴 ---------- */
+const mnav = document.getElementById('mnav');
+const menuToggle = document.querySelector('.menu-toggle');
+menuToggle.addEventListener('click', ()=> mnav.classList.toggle('open'));
+mnav.addEventListener('click', e=>{ if(e.target.tagName === 'A') mnav.classList.remove('open'); });
+addEventListener('scroll', ()=>{ if(mnav.classList.contains('open')) mnav.classList.remove('open'); }, {passive:true});
+
+/* ---------- 히어로 캐러셀 ---------- */
+const hKw = document.getElementById('hKw');
+const hIdx = document.getElementById('hIdx');
+const hTitle = document.getElementById('hTitle');
+const hSub = document.getElementById('hSub');
+const hImg = document.getElementById('hImg');
+const dots = [...document.querySelectorAll('#heroDots button')];
+let hi = 0, heroTimer;
+/* 헤드라인을 <br> 기준 줄 → 공백 기준 단어로 쪼개 마스크 리빌 마크업 생성. 전 줄 누적 인덱스(--i)로 위→아래 캐스케이드 */
+function splitTitle(html){
+  let i = 0;
+  return html.split(/<br\s*\/?>/i).map(line =>
+    '<span class="h-line">' + line.trim().split(/\s+/).filter(Boolean).map(w =>
+      `<span class="h-word"><span class="h-word-in" style="--i:${i++}">${w}</span></span>`
+    ).join(' ') + '</span>'
+  ).join('');
+}
+function setHero(i){
+  hi = (i + HERO.length) % HERO.length;
+  const s = HERO[hi];
+  hImg.style.opacity = '0';
+  setTimeout(()=>{ hImg.src = s.img; hImg.style.opacity = '1'; }, 240);
+  hKw.innerHTML = s.kws.map(k=>`<span class="kw">${k}</span>`).join('');
+  hIdx.textContent = s.idx; hTitle.innerHTML = splitTitle(s.title); hSub.textContent = s.sub;
+  dots.forEach((d,di)=>d.classList.toggle('on', di===hi));
+}
+function startHero(){ clearInterval(heroTimer); heroTimer = setInterval(()=>setHero(hi+1), 6000); }
+dots.forEach((d,i)=>d.addEventListener('click', ()=>{ setHero(i); startHero(); }));
+setHero(0); startHero();
+
+/* ---------- 스크롤 등장 ---------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold:.1, rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- 숫자 카운트업 ---------- */
+function animateCount(el){
+  const to = parseFloat(el.dataset.to), dec = +(el.dataset.dec || 0), suffix = el.dataset.suffix || '', dur = 1500, t0 = performance.now();
+  const fmt = v => (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('ko-KR')) + (suffix ? `<span class="unit">${suffix}</span>` : '');
+  function tick(now){
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.innerHTML = fmt(to * e);
+    if(p < 1) requestAnimationFrame(tick); else el.innerHTML = fmt(to);
+  }
+  requestAnimationFrame(tick);
+  setTimeout(()=>{ if(el.dataset.to && el.textContent.replace(/[^0-9.]/g,'') === '0') el.innerHTML = fmt(to); }, dur + 500);
+}
+const statsBand = document.querySelector('.stats-band');
+if(statsBand){
+  const statsIO = new IntersectionObserver((es)=>{
+    es.forEach(en=>{ if(en.isIntersecting){ en.target.querySelectorAll('.num[data-to]').forEach(animateCount); statsIO.unobserve(en.target); } });
+  }, {threshold:.4});
+  statsIO.observe(statsBand);
+}
+
+/* ---------- 패럴랙스 ---------- */
+const pxBg = document.getElementById('pxBg');
+if(pxBg){
+  const onScroll = ()=>{
+    const r = pxBg.parentElement.getBoundingClientRect();
+    if(r.bottom < 0 || r.top > innerHeight) return;
+    const prog = (innerHeight - r.top) / (innerHeight + r.height);
+    pxBg.style.transform = `translateY(${(prog - 0.5) * 16}%)`;
+  };
+  addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+}
+</script>
+</body>
+</html>
