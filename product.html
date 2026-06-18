@@ -567,7 +567,7 @@ function openBuyModal(mode){
   }
   if(total) total.textContent = krw(snap.total) + '원';
   if(cta) cta.innerHTML = mode === 'buy'
-    ? '<button class="btn btn-outline" type="button" data-close>취소</button><a class="btn" href="cart.html">주문서로 이동</a>'
+    ? '<button class="btn btn-outline" type="button" data-close>취소</button><a class="btn" href="checkout.html">주문서로 이동</a>'
     : '<button class="btn btn-outline" type="button" data-close>취소</button><button class="btn" type="button" id="pmAddCartConfirm">장바구니 담기</button>';
   buyModal.classList.add('open');
   buyModal.setAttribute('aria-hidden', 'false');

@@ -169,7 +169,7 @@
             <div class="sum-row"><span>상품 할인</span><b class="minus" id="sumDisc">0원</b></div>
             <div class="sum-row"><span>배송비</span><b id="sumShip">무료</b></div>
             <div class="sum-total"><span>결제예정금액</span><b id="sumTotal">0원</b></div>
-            <button class="btn btn-block" id="checkout">주문하기</button>
+            <a class="btn btn-block" href="checkout.html" id="checkout">주문하기</a>
             <p class="sum-note">본 페이지는 리뉴얼 시안으로,<br>실제 결제는 진행되지 않습니다.</p>
           </div>
         </aside>
@@ -400,12 +400,14 @@ const fmt = n => n.toLocaleString('ko-KR');
     render();
   });
 
-  /* 주문하기 — 선택된 상품만 진행 */
+  /* 주문하기 — 선택된 상품만 진행 (체크 0개면 차단) */
   const checkout = document.getElementById('checkout');
-  if(checkout) checkout.addEventListener('click', ()=> {
+  if(checkout) checkout.addEventListener('click', (e)=> {
     const sel = CART.filter(p => p.checked);
-    if(sel.length === 0){ showToast('주문할 상품을 선택해 주세요'); return; }
-    showToast(`${sel.length}개 상품 주문 진행 (시안 — 실제 결제는 진행되지 않아요)`);
+    if(sel.length === 0){
+      e.preventDefault();
+      showToast('주문할 상품을 선택해 주세요');
+    }
   });
 
   render();
