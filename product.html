@@ -406,15 +406,41 @@
 
 <a href="#" class="kakao" aria-label="카카오톡 상담"><svg width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6-.2.6-.7 2.3-.8 2.7 0 0 0 .2.1.3h.3c.4-.1 2.6-1.7 3.5-2.4.5.1 1.1.1 1.7.1 5 0 9-3.2 9-7.1S17 4 12 4Z"/></svg></a>
 
-<!-- 구매 확인 모달 (장바구니 / 바로구매) — 디자인 시안, 실제 결제 없음 -->
+<!-- 구매 확인 모달 (장바구니 / 바로구매) — 옵션·추가구성 선택 포함 -->
+<style>
+.pmodal-card--wide{width:min(540px,100%);max-height:calc(100vh - 40px);overflow-y:auto;}
+.pm-body{margin-bottom:14px;display:flex;flex-direction:column;gap:10px;}
+.pm-body .opt-acc{background:var(--bg-1);}
+.pm-empty{font-size:13px;color:var(--txt-3);text-align:center;padding:18px 14px;border:1px dashed var(--line);border-radius:var(--r-md);}
+</style>
 <div class="pmodal" id="buyModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle" aria-hidden="true">
   <div class="pmodal-dim" data-close></div>
-  <div class="pmodal-card">
+  <div class="pmodal-card pmodal-card--wide">
     <button class="pmodal-x" type="button" data-close aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="pm-head">
       <span class="pm-ico" id="pmIco"></span>
-      <h3 id="pmTitle">장바구니에 담았어요</h3>
+      <h3 id="pmTitle">이대로 주문할까요?</h3>
     </div>
+
+    <!-- 모달 안 옵션 선택 + 추가 구성 (본문과 selected 배열 공유) -->
+    <div class="pm-body">
+      <div class="opt-acc opt-select pm-opt" id="pmAccPackage">
+        <button class="opt-acc-head" type="button" aria-expanded="false">옵션 선택<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="opt-acc-body">
+          <button class="opt-pick" type="button" data-opt="pkg" data-id="pkg1" data-name="수면루틴 마사지 베개" data-price="129000"><span class="op-name">베개 마사지기 1개 + 프리미엄 베개커버 1개 + 어댑터 1개</span><span class="op-price">129,000원</span></button>
+          <button class="opt-pick" type="button" data-opt="pkg" data-id="pkg2" data-name="수면루틴 마사지 베개 2세트 (커버·어댑터 2개)" data-price="229040"><span class="op-name">베개 마사지기 2개 + 베개커버 2개 + 어댑터 2개</span><span class="op-price">229,040원<em>+100,040</em></span></button>
+          <button class="opt-pick" type="button" data-opt="pkg" data-id="pkg3" data-name="수면루틴 마사지 베개 3세트 (커버·어댑터 3개)" data-price="319040"><span class="op-name">베개 마사지기 3개 + 베개커버 3개 + 어댑터 3개</span><span class="op-price">319,040원<em>+190,040</em></span></button>
+        </div>
+      </div>
+      <div class="opt-acc pm-opt" id="pmAccExtra">
+        <button class="opt-acc-head" type="button" aria-expanded="false">추가 구성 상품<span class="oa-hint">선택</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="opt-acc-body">
+          <button class="opt-pick" type="button" data-opt="extra" data-id="cover-cool" data-name="프리미엄 냉감 베개 커버" data-price="18900"><img class="op-thumb" src="https://vivoir.kr/web/product/medium/202602/c799180274f77632b0b6df6a98fe4e04.jpg" alt="" loading="lazy" /><span class="op-name">비브아 수면루틴 프리미엄 냉감 베개 커버</span><span class="op-price">18,900원</span></button>
+          <button class="opt-pick" type="button" data-opt="extra" data-id="cover" data-name="프리미엄 베개 커버" data-price="14900"><img class="op-thumb" src="https://vivoir.kr/web/product/medium/202602/74f395fcd4e90e683a3986f35b9b9e9b.jpg" alt="" loading="lazy" /><span class="op-name">비브아 수면루틴 프리미엄 베개 커버</span><span class="op-price">14,900원</span></button>
+        </div>
+      </div>
+    </div>
+
     <div class="pm-items" id="pmItems"></div>
     <div class="pm-total"><span>총 결제 예상 금액</span><b id="pmTotal">0원</b></div>
     <p class="pm-note">실제 주문·결제는 진행되지 않는 디자인 시안이에요.</p>
@@ -503,7 +529,13 @@ const PM_BUY_ICO  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 function openBuyModal(mode){
   if(!buyModal) return;
   const snap = (typeof window.__selSnapshot === 'function') ? window.__selSnapshot() : {items:[], total:0, qty:0};
-  if(!snap.qty){ showToast('구성을 먼저 선택해 주세요'); return; }
+  // 'cart'(장바구니) 모드는 옵션 필수, 'buy'(바로 구매)는 모달 안에서 옵션 선택 가능
+  if(mode === 'cart' && !snap.qty){ showToast('구성을 먼저 선택해 주세요'); return; }
+  // 모달 안 옵션 아코디언은 매번 닫힌 상태로 초기화
+  ['pmAccPackage','pmAccExtra'].forEach(id => {
+    const a = document.getElementById(id);
+    if(a){ a.classList.remove('open'); const h = a.querySelector('.opt-acc-head'); if(h) h.setAttribute('aria-expanded','false'); }
+  });
   const ico   = document.getElementById('pmIco');
   const title = document.getElementById('pmTitle');
   const items = document.getElementById('pmItems');
@@ -511,12 +543,16 @@ function openBuyModal(mode){
   const cta   = document.getElementById('pmCta');
   if(ico) ico.innerHTML = mode === 'buy' ? PM_BUY_ICO : PM_CART_ICO;
   if(title) title.textContent = mode === 'buy' ? '이대로 주문할까요?' : '장바구니에 담았어요';
-  if(items) items.innerHTML = snap.items.map(it => `
+  if(items){
+    items.innerHTML = snap.items.length === 0
+      ? '<div class="pm-empty">위에서 옵션을 선택해 주세요.</div>'
+      : snap.items.map(it => `
         <div class="pm-item">
           <span class="pmi-name">${it.name}</span>
           <span class="pmi-qty">${it.qty}개</span>
           <b class="pmi-price">${krw(it.price * it.qty)}원</b>
         </div>`).join('');
+  }
   if(total) total.textContent = krw(snap.total) + '원';
   if(cta) cta.innerHTML = mode === 'buy'
     ? '<button class="btn btn-outline" type="button" data-close>더 둘러보기</button><a class="btn" href="cart.html">주문서로 이동</a>'
@@ -593,6 +629,22 @@ function buyNow(){ openBuyModal('buy'); }
           </div>`).join('');
     }
     if(pdpTotal) pdpTotal.innerHTML = fmt(totalPrice()) + '<span class="won">원</span>';
+
+    // 모달이 열려있으면 모달 안 선택 리스트/합계도 동기화
+    const pmItems = document.getElementById('pmItems');
+    const pmTotal = document.getElementById('pmTotal');
+    const buyModalEl = document.getElementById('buyModal');
+    if(pmItems && pmTotal && buyModalEl && buyModalEl.classList.contains('open')){
+      pmItems.innerHTML = selected.length === 0
+        ? '<div class="pm-empty">위에서 옵션을 선택해 주세요.</div>'
+        : selected.map(it => `
+          <div class="pm-item">
+            <span class="pmi-name">${it.name}</span>
+            <span class="pmi-qty">${it.qty}개</span>
+            <b class="pmi-price">${fmt(it.price*it.qty)}원</b>
+          </div>`).join('');
+      pmTotal.textContent = fmt(totalPrice()) + '원';
+    }
   }
 
   function addItem(id, name, price){
@@ -611,9 +663,9 @@ function buyNow(){ openBuyModal('buy'); }
       addItem(id, name, price);
       btn.classList.add('picked');
       setTimeout(() => btn.classList.remove('picked'), 360);
-      // 옵션 선택 드롭다운: 선택하면 닫혀서 select처럼 동작
+      // 옵션 선택 드롭다운: 선택하면 닫혀서 select처럼 동작 (본문 & 모달 둘 다)
       const acc = btn.closest('.opt-acc');
-      if(acc && acc.id === 'accPackage'){
+      if(acc && (acc.id === 'accPackage' || acc.id === 'pmAccPackage')){
         acc.classList.remove('open');
         const hd = acc.querySelector('.opt-acc-head');
         if(hd) hd.setAttribute('aria-expanded', 'false');
