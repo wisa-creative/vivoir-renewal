@@ -532,8 +532,7 @@ const PM_BUY_ICO  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 function openBuyModal(mode){
   if(!buyModal) return;
   const snap = (typeof window.__selSnapshot === 'function') ? window.__selSnapshot() : {items:[], total:0, qty:0};
-  // 'cart'(장바구니) 모드는 옵션 필수, 'buy'(바로 구매)는 모달 안에서 옵션 선택 가능
-  if(mode === 'cart' && !snap.qty){ showToast('구성을 먼저 선택해 주세요'); return; }
+  // 옵션 없어도 모달 열림 — 모달 안에서 옵션·추가구성 선택 가능 (장바구니/바로구매 동일)
   // 모달 안 옵션 아코디언은 매번 닫힌 상태로 초기화
   ['pmAccPackage','pmAccExtra'].forEach(id => {
     const a = document.getElementById(id);
@@ -545,7 +544,10 @@ function openBuyModal(mode){
   const total = document.getElementById('pmTotal');
   const cta   = document.getElementById('pmCta');
   if(ico) ico.innerHTML = mode === 'buy' ? PM_BUY_ICO : PM_CART_ICO;
-  if(title) title.textContent = mode === 'buy' ? '이대로 주문할까요?' : '장바구니에 담았어요';
+  if(title){
+    if(mode === 'buy') title.textContent = '이대로 주문할까요?';
+    else title.textContent = snap.qty > 0 ? '장바구니에 담았어요' : '장바구니에 담을까요?';
+  }
   if(items){
     items.innerHTML = snap.items.length === 0
       ? '<div class="pm-empty">위에서 옵션을 선택해 주세요.</div>'
@@ -577,9 +579,11 @@ if(buyModal){
 }
 function addToCart(){
   const q = (typeof window.__selQty === 'function') ? window.__selQty() : 1;
-  if(!q){ showToast('구성을 먼저 선택해 주세요'); return; }
-  cart += q;
-  if(cartCount) cartCount.textContent = cart;
+  // 옵션 있으면 카트 카운트 증가, 없어도 모달은 열림 (안에서 선택 가능)
+  if(q){
+    cart += q;
+    if(cartCount) cartCount.textContent = cart;
+  }
   openBuyModal('cart');
 }
 function buyNow(){ openBuyModal('buy'); }
