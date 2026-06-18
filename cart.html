@@ -8,6 +8,39 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <link rel="stylesheet" href="style.css" />
 <script>try{if(sessionStorage.getItem('vivoirIntroSeen'))document.documentElement.classList.add('intro-seen');else sessionStorage.setItem('vivoirIntroSeen','1');}catch(e){}</script>
+<style>
+/* === 장바구니: 정렬 픽스 + 체크박스 디자인 === */
+.cart-item{
+  display:grid !important;
+  grid-template-columns:24px 100px 1fr auto auto !important;
+  align-items:center !important;
+  gap:18px !important;
+}
+.ci-info{display:flex !important;flex-direction:column !important;justify-content:center !important;gap:8px !important;padding-right:0 !important;}
+.ci-name{margin-bottom:0 !important;}
+.ci-opt{margin-bottom:0 !important;}
+.ci-remove{position:static !important;}
+/* 체크박스 (커스텀) */
+.ci-check-wrap{position:relative;display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none;flex:0 0 auto;}
+.ci-check-wrap input{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+.ci-check-box{width:22px;height:22px;flex:0 0 auto;border:1.5px solid var(--line);border-radius:6px;background:var(--bg-1);display:flex;align-items:center;justify-content:center;transition:.2s cubic-bezier(.22,.61,.36,1);}
+.ci-check-box::after{content:'';width:10px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) scale(0);transition:transform .2s cubic-bezier(.22,.61,.36,1);margin-bottom:2px;}
+.ci-check-wrap input:checked + .ci-check-box{background:var(--accent);border-color:var(--accent);}
+.ci-check-wrap input:checked + .ci-check-box::after{transform:rotate(-45deg) scale(1);}
+.cart-item.unchecked{opacity:.5;}
+.cart-item.unchecked .ci-thumb{filter:grayscale(.5);}
+/* 카트 툴바 */
+.cart-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--line);margin-bottom:4px;}
+.cart-toolbar .ci-check-wrap{font-size:14px;font-weight:600;color:var(--txt-1);}
+.btn-text{background:transparent;border:none;color:var(--txt-3);font-family:inherit;font-size:13.5px;cursor:pointer;padding:6px 10px;border-radius:8px;transition:.2s cubic-bezier(.22,.61,.36,1);}
+.btn-text:hover{color:var(--txt-1);background:var(--bg-2);}
+@media (max-width:599px){
+  .cart-item{grid-template-columns:22px 70px 1fr auto !important;gap:10px !important;}
+  .ci-thumb{width:70px !important;height:70px !important;}
+  .ci-price{grid-column:2 / -1;justify-self:start;margin-top:2px;font-size:15px !important;}
+  .ci-remove{grid-column:4;}
+}
+</style>
 </head>
 <body>
 
@@ -113,6 +146,14 @@
     <div class="wrap">
       <div class="cart-wrap" id="cartWrap">
         <div class="cart-main">
+          <div class="cart-toolbar">
+            <label class="ci-check-wrap" aria-label="전체 선택">
+              <input type="checkbox" id="checkAll" checked />
+              <span class="ci-check-box"></span>
+              <span>전체 선택</span>
+            </label>
+            <button class="btn-text" id="removeSelected" type="button">선택 삭제</button>
+          </div>
           <div class="cart-list" id="cartList"></div>
         </div>
         <aside class="cart-aside">
@@ -186,9 +227,9 @@
 <script>
 /* ---------- 데이터 ---------- */
 let CART = [
-  {name:'수면루틴 마사지 베개', opt:'미드나잇 네이비', img:'https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg', now:129000, org:250000, qty:1},
-  {name:'미니 포켓 마사지건', opt:'클라우드 아이보리', img:'https://vivoir.kr/web/product/medium/202602/b80f5247cb9511a172554b223da5c4c8.jpg', now:69000, org:190000, qty:1},
-  {name:'손모아 장갑 손 마사지기', opt:'프리 사이즈', img:'https://vivoir.kr/web/product/medium/202602/24e4bf9797a7dc6aa74efde10c57e87f.jpg', now:89000, org:200000, qty:2},
+  {name:'수면루틴 마사지 베개', opt:'미드나잇 네이비', img:'https://vivoir.kr/web/product/medium/202602/fcbd56cd1571138f3f7a155ae593e32c.jpg', now:129000, org:250000, qty:1, checked:true},
+  {name:'미니 포켓 마사지건', opt:'클라우드 아이보리', img:'https://vivoir.kr/web/product/medium/202602/b80f5247cb9511a172554b223da5c4c8.jpg', now:69000, org:190000, qty:1, checked:true},
+  {name:'손모아 장갑 손 마사지기', opt:'프리 사이즈', img:'https://vivoir.kr/web/product/medium/202602/24e4bf9797a7dc6aa74efde10c57e87f.jpg', now:89000, org:200000, qty:2, checked:true},
 ];
 const ADDONS = [
   {name:'목 어깨 베개 마사지기', img:'https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg', dc:50, now:'109,000', org:'219,000', rate:'4.9', tag:null},
@@ -261,11 +302,19 @@ const fmt = n => n.toLocaleString('ko-KR');
   const SHIP_FREE = 50000;
 
   function totals(){
-    const goods = CART.reduce((s,p)=> s + p.org * p.qty, 0);
-    const pay   = CART.reduce((s,p)=> s + p.now * p.qty, 0);
+    const sel = CART.filter(p => p.checked);
+    const goods = sel.reduce((s,p)=> s + p.org * p.qty, 0);
+    const pay   = sel.reduce((s,p)=> s + p.now * p.qty, 0);
     const disc  = goods - pay;
-    const qty   = CART.reduce((s,p)=> s + p.qty, 0);
+    const qty   = sel.reduce((s,p)=> s + p.qty, 0);
     return {goods, pay, disc, qty};
+  }
+
+  function syncCheckAll(){
+    const checkAll = document.getElementById('checkAll');
+    if(!checkAll) return;
+    const allChecked = CART.length > 0 && CART.every(p => p.checked);
+    checkAll.checked = allChecked;
   }
 
   function syncSummary(){
@@ -287,7 +336,11 @@ const fmt = n => n.toLocaleString('ko-KR');
       return;
     }
     list.innerHTML = CART.map((p,i) => `
-      <div class="cart-item" data-i="${i}">
+      <div class="cart-item${p.checked ? '' : ' unchecked'}" data-i="${i}">
+        <label class="ci-check-wrap" aria-label="상품 선택">
+          <input type="checkbox" class="ci-check" ${p.checked ? 'checked' : ''} />
+          <span class="ci-check-box"></span>
+        </label>
         <img class="ci-thumb" src="${p.img}" alt="${p.name}" />
         <div class="ci-info">
           <div class="ci-name">${p.name}</div>
@@ -302,6 +355,7 @@ const fmt = n => n.toLocaleString('ko-KR');
         <button class="ci-remove" aria-label="삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       </div>`).join('');
     syncSummary();
+    syncCheckAll();
   }
 
   list.addEventListener('click', e => {
@@ -313,8 +367,40 @@ const fmt = n => n.toLocaleString('ko-KR');
     else if(e.target.closest('.ci-remove')){ CART.splice(i,1); showToast('상품을 삭제했어요'); render(); }
   });
 
+  /* 체크박스 토글 */
+  list.addEventListener('change', e => {
+    if(!e.target.classList.contains('ci-check')) return;
+    const item = e.target.closest('.cart-item');
+    if(!item) return;
+    const i = +item.dataset.i;
+    CART[i].checked = e.target.checked;
+    render();
+  });
+
+  /* 전체 선택 */
+  const checkAllEl = document.getElementById('checkAll');
+  if(checkAllEl) checkAllEl.addEventListener('change', e => {
+    CART.forEach(p => p.checked = e.target.checked);
+    render();
+  });
+
+  /* 선택 삭제 */
+  const removeSelectedEl = document.getElementById('removeSelected');
+  if(removeSelectedEl) removeSelectedEl.addEventListener('click', () => {
+    const cnt = CART.filter(p => p.checked).length;
+    if(cnt === 0){ showToast('선택된 상품이 없어요'); return; }
+    CART = CART.filter(p => !p.checked);
+    showToast(`${cnt}개 상품을 삭제했어요`);
+    render();
+  });
+
+  /* 주문하기 — 선택된 상품만 진행 */
   const checkout = document.getElementById('checkout');
-  if(checkout) checkout.addEventListener('click', ()=> showToast('주문 기능은 준비 중인 시안이에요'));
+  if(checkout) checkout.addEventListener('click', ()=> {
+    const sel = CART.filter(p => p.checked);
+    if(sel.length === 0){ showToast('주문할 상품을 선택해 주세요'); return; }
+    showToast(`${sel.length}개 상품 주문 진행 (시안 — 실제 결제는 진행되지 않아요)`);
+  });
 
   render();
 })();
