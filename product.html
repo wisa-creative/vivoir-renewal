@@ -538,6 +538,9 @@ function openBuyModal(mode){
     const a = document.getElementById(id);
     if(a){ a.classList.remove('open'); const h = a.querySelector('.opt-acc-head'); if(h) h.setAttribute('aria-expanded','false'); }
   });
+  // 모달 상태 리셋 — 옵션 영역 다시 보이게 (확인 단계에서 닫혔던 것 복원)
+  const pmBodyEl = buyModal.querySelector('.pm-body');
+  if(pmBodyEl) pmBodyEl.style.display = '';
   const ico   = document.getElementById('pmIco');
   const title = document.getElementById('pmTitle');
   const items = document.getElementById('pmItems');
@@ -546,7 +549,7 @@ function openBuyModal(mode){
   if(ico) ico.innerHTML = mode === 'buy' ? PM_BUY_ICO : PM_CART_ICO;
   if(title){
     if(mode === 'buy') title.textContent = '이대로 주문할까요?';
-    else title.textContent = snap.qty > 0 ? '장바구니에 담았어요' : '장바구니에 담을까요?';
+    else title.textContent = '장바구니에 담을까요?';
   }
   if(items){
     items.innerHTML = snap.items.length === 0
@@ -562,7 +565,7 @@ function openBuyModal(mode){
   if(total) total.textContent = krw(snap.total) + '원';
   if(cta) cta.innerHTML = mode === 'buy'
     ? '<button class="btn btn-outline" type="button" data-close>더 둘러보기</button><a class="btn" href="cart.html">주문서로 이동</a>'
-    : '<button class="btn btn-outline" type="button" data-close>계속 쇼핑</button><a class="btn" href="cart.html">장바구니 보기</a>';
+    : '<button class="btn btn-outline" type="button" data-close>계속 쇼핑</button><button class="btn" type="button" id="pmAddCartConfirm">장바구니 담기</button>';
   buyModal.classList.add('open');
   buyModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -574,17 +577,32 @@ function closeBuyModal(){
   document.body.style.overflow = '';
 }
 if(buyModal){
-  buyModal.addEventListener('click', e => { if(e.target.closest('[data-close]')) closeBuyModal(); });
+  buyModal.addEventListener('click', e => {
+    if(e.target.closest('[data-close]')) closeBuyModal();
+    else if(e.target.closest('#pmAddCartConfirm')) confirmAddToCart();
+  });
   addEventListener('keydown', e => { if(e.key === 'Escape' && buyModal.classList.contains('open')) closeBuyModal(); });
 }
 function addToCart(){
-  const q = (typeof window.__selQty === 'function') ? window.__selQty() : 1;
-  // 옵션 있으면 카트 카운트 증가, 없어도 모달은 열림 (안에서 선택 가능)
-  if(q){
-    cart += q;
-    if(cartCount) cartCount.textContent = cart;
-  }
+  // 모달만 열기 — 실제 카트 추가는 모달 안의 [장바구니 담기] 버튼에서
   openBuyModal('cart');
+}
+function confirmAddToCart(){
+  const q = (typeof window.__selQty === 'function') ? window.__selQty() : 0;
+  if(!q){ showToast('구성을 먼저 선택해 주세요'); return; }
+  cart += q;
+  if(cartCount) cartCount.textContent = cart;
+  switchToCartConfirmed();
+}
+function switchToCartConfirmed(){
+  const ico   = document.getElementById('pmIco');
+  const title = document.getElementById('pmTitle');
+  const cta   = document.getElementById('pmCta');
+  const body  = buyModal && buyModal.querySelector('.pm-body');
+  if(ico) ico.innerHTML = PM_CART_ICO;
+  if(title) title.textContent = '장바구니에 담았어요';
+  if(body) body.style.display = 'none';
+  if(cta) cta.innerHTML = '<button class="btn btn-outline" type="button" data-close>계속 쇼핑</button><a class="btn" href="cart.html">장바구니 바로가기</a>';
 }
 function buyNow(){ openBuyModal('buy'); }
 
