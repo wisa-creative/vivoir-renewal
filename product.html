@@ -686,12 +686,26 @@ function buyNow(){ openBuyModal('buy'); }
     render();
   });
 
-  /* 아코디언 (제품 선택 / 추가 구성) */
+  /* 아코디언 (제품 선택 / 추가 구성) — 열릴 때 펼쳐진 영역으로 부드럽게 스크롤 */
   document.querySelectorAll('.opt-acc-head').forEach(h => {
     h.addEventListener('click', () => {
       const acc = h.closest('.opt-acc');
       const open = acc.classList.toggle('open');
       h.setAttribute('aria-expanded', String(open));
+      if(open){
+        // 트랜지션 완료(약 380ms) 직후, 펼쳐진 영역이 잘 보이도록 스크롤
+        setTimeout(() => {
+          const card = acc.closest('.pmodal-card');
+          if(card){
+            // 모달 안: 카드 내부 스크롤을 아코디언 위치로 이동
+            const top = acc.offsetTop - 12;
+            card.scrollTo({top, behavior:'smooth'});
+          } else {
+            // 본문: 페이지 스크롤
+            acc.scrollIntoView({behavior:'smooth', block:'start'});
+          }
+        }, 400);
+      }
     });
   });
 
