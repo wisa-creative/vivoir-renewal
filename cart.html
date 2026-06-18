@@ -158,7 +158,7 @@
               <span class="ci-check-box"></span>
               <span>전체 선택</span>
             </label>
-            <button class="btn-text" id="removeSelected" type="button">선택 삭제</button>
+            <button class="btn-text" id="removeAll" type="button">전체 삭제</button>
           </div>
           <div class="cart-list" id="cartList"></div>
         </div>
@@ -390,13 +390,13 @@ const fmt = n => n.toLocaleString('ko-KR');
     render();
   });
 
-  /* 선택 삭제 */
-  const removeSelectedEl = document.getElementById('removeSelected');
-  if(removeSelectedEl) removeSelectedEl.addEventListener('click', () => {
-    const cnt = CART.filter(p => p.checked).length;
-    if(cnt === 0){ showToast('선택된 상품이 없어요'); return; }
-    CART = CART.filter(p => !p.checked);
-    showToast(`${cnt}개 상품을 삭제했어요`);
+  /* 전체 삭제 */
+  const removeAllEl = document.getElementById('removeAll');
+  if(removeAllEl) removeAllEl.addEventListener('click', () => {
+    if(CART.length === 0){ showToast('장바구니가 비어있어요'); return; }
+    const cnt = CART.length;
+    CART = [];
+    showToast(`${cnt}개 상품을 모두 삭제했어요`);
     render();
   });
 
