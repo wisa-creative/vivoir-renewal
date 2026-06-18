@@ -415,6 +415,8 @@
 .pm-item{align-items:center;}
 .pmi-del{flex:0 0 auto;width:24px;height:24px;border-radius:50%;color:rgba(28,28,30,.44);font-size:18px;line-height:1;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s cubic-bezier(.22,.61,.36,1);margin-left:4px;padding:0;}
 .pmi-del:hover{background:rgba(28,28,30,.06);color:#1c1c1e;}
+/* 확인 단계(장바구니 담은 후): ✕ 삭제 버튼 숨김 */
+.pmodal.pm-confirmed .pmi-del{display:none !important;}
 </style>
 <div class="pmodal" id="buyModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle" aria-hidden="true">
   <div class="pmodal-dim" data-close></div>
@@ -538,9 +540,10 @@ function openBuyModal(mode){
     const a = document.getElementById(id);
     if(a){ a.classList.remove('open'); const h = a.querySelector('.opt-acc-head'); if(h) h.setAttribute('aria-expanded','false'); }
   });
-  // 모달 상태 리셋 — 옵션 영역 다시 보이게 (확인 단계에서 닫혔던 것 복원)
+  // 모달 상태 리셋 — 옵션 영역 다시 보이게 + 확인 단계 클래스 제거
   const pmBodyEl = buyModal.querySelector('.pm-body');
   if(pmBodyEl) pmBodyEl.style.display = '';
+  buyModal.classList.remove('pm-confirmed');
   const ico   = document.getElementById('pmIco');
   const title = document.getElementById('pmTitle');
   const items = document.getElementById('pmItems');
@@ -603,6 +606,7 @@ function switchToCartConfirmed(){
   if(title) title.textContent = '장바구니에 담았어요';
   if(body) body.style.display = 'none';
   if(cta) cta.innerHTML = '<button class="btn btn-outline" type="button" data-close>계속 쇼핑</button><a class="btn" href="cart.html">장바구니 바로가기</a>';
+  if(buyModal) buyModal.classList.add('pm-confirmed');  // ✕ 삭제 버튼 숨김
 }
 function buyNow(){ openBuyModal('buy'); }
 
