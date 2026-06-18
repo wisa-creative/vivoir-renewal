@@ -412,6 +412,9 @@
 .pm-body{margin-bottom:14px;display:flex;flex-direction:column;gap:10px;}
 .pm-body .opt-acc{background:var(--bg-1);}
 .pm-empty{font-size:13px;color:var(--txt-3);text-align:center;padding:18px 14px;border:1px dashed var(--line);border-radius:var(--r-md);}
+.pm-item{align-items:center;}
+.pmi-del{flex:0 0 auto;width:24px;height:24px;border-radius:50%;color:rgba(28,28,30,.44);font-size:18px;line-height:1;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s cubic-bezier(.22,.61,.36,1);margin-left:4px;padding:0;}
+.pmi-del:hover{background:rgba(28,28,30,.06);color:#1c1c1e;}
 </style>
 <div class="pmodal" id="buyModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle" aria-hidden="true">
   <div class="pmodal-dim" data-close></div>
@@ -547,10 +550,11 @@ function openBuyModal(mode){
     items.innerHTML = snap.items.length === 0
       ? '<div class="pm-empty">위에서 옵션을 선택해 주세요.</div>'
       : snap.items.map(it => `
-        <div class="pm-item">
+        <div class="pm-item" data-id="${it.id}">
           <span class="pmi-name">${it.name}</span>
           <span class="pmi-qty">${it.qty}개</span>
           <b class="pmi-price">${krw(it.price * it.qty)}원</b>
+          <button class="pmi-del" type="button" data-act="del" aria-label="삭제">×</button>
         </div>`).join('');
   }
   if(total) total.textContent = krw(snap.total) + '원';
@@ -638,10 +642,11 @@ function buyNow(){ openBuyModal('buy'); }
       pmItems.innerHTML = selected.length === 0
         ? '<div class="pm-empty">위에서 옵션을 선택해 주세요.</div>'
         : selected.map(it => `
-          <div class="pm-item">
+          <div class="pm-item" data-id="${it.id}">
             <span class="pmi-name">${it.name}</span>
             <span class="pmi-qty">${it.qty}개</span>
             <b class="pmi-price">${fmt(it.price*it.qty)}원</b>
+            <button class="pmi-del" type="button" data-act="del" aria-label="삭제">×</button>
           </div>`).join('');
       pmTotal.textContent = fmt(totalPrice()) + '원';
     }
@@ -673,18 +678,21 @@ function buyNow(){ openBuyModal('buy'); }
     });
   });
 
-  /* 선택 리스트: 수량 조절 · 삭제 */
-  if(selList) selList.addEventListener('click', e => {
+  /* 선택 리스트: 수량 조절 · 삭제 (본문 .sel-list + 모달 .pm-items 둘 다) */
+  const handleSelClick = e => {
     const b = e.target.closest('[data-act]');
     if(!b) return;
-    const wrap = b.closest('.sel-item'); if(!wrap) return;
+    const wrap = b.closest('[data-id]'); if(!wrap) return;
     const it = selected.find(i => i.id === wrap.dataset.id); if(!it) return;
     const act = b.dataset.act;
     if(act === 'inc') it.qty = Math.min(99, it.qty + 1);
     else if(act === 'dec') it.qty = Math.max(1, it.qty - 1);
     else if(act === 'del') selected.splice(selected.indexOf(it), 1);
     render();
-  });
+  };
+  if(selList) selList.addEventListener('click', handleSelClick);
+  const pmItemsEl = document.getElementById('pmItems');
+  if(pmItemsEl) pmItemsEl.addEventListener('click', handleSelClick);
 
   /* 아코디언 (제품 선택 / 추가 구성) — 열릴 때 펼쳐진 영역으로 부드럽게 스크롤 */
   document.querySelectorAll('.opt-acc-head').forEach(h => {
@@ -750,7 +758,7 @@ function buyNow(){ openBuyModal('buy'); }
   addItem('pkg1', BASE_NAME, 129000);
   window.__selQty = totalQty;
   window.__selSnapshot = () => ({
-    items: selected.map(i => ({name:i.name, qty:i.qty, price:i.price})),
+    items: selected.map(i => ({id:i.id, name:i.name, qty:i.qty, price:i.price})),
     total: totalPrice(),
     qty: totalQty()
   });
