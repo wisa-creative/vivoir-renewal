@@ -528,7 +528,7 @@ body:has(.buybar.show) .kakao{bottom:104px;}
   .gnb-inner{position:relative;height:60px;display:flex;align-items:center;gap:0;padding:0 8px;}
   .gnb-inner .icon-btn{width:40px;height:40px;}
   .gnb-util{display:contents;}
-  .menu-toggle{display:flex;order:-2;}
+  .menu-toggle{display:flex;order:-2;margin-left:-4px;}
   /* 햄버거 회색 동그라미(호버 배경) 제거 */
   .menu-toggle,
   .menu-toggle:hover,
