@@ -534,9 +534,9 @@ body:has(.buybar.show) .kakao{bottom:104px;}
   .menu-toggle:hover,
   .menu-toggle:focus,
   .menu-toggle:active{background:transparent !important;}
-  /* 로고는 화면 정중앙 고정 (좌우 자식들 폭 비대칭에 영향 X) */
-  .logo{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);flex:none;margin:0;order:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-  .logo svg{pointer-events:auto;}
+  /* 헤더 로고만 화면 정중앙 고정 (푸터 .logo 영향 X) */
+  .gnb-inner .logo{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);flex:none;margin:0;order:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+  .gnb-inner .logo svg{pointer-events:auto;}
   /* 우측 그룹은 margin-left:auto로 우측 끝 */
   .gnb-util .util-extra[aria-label="검색"]{order:1;margin-left:auto;margin-right:-4px;}
   .gnb-util .util-extra[aria-label="마이페이지"]{display:none;}
