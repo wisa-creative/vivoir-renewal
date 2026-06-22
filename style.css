@@ -1124,7 +1124,7 @@ textarea.input{height:auto;min-height:130px;padding:14px 18px;line-height:1.7;re
 .check input:checked + .box svg{opacity:1;transform:scale(1);}
 .check input:focus-visible + .box{box-shadow:0 0 0 4px rgba(15,82,186,.16);}
 .check.lg{font-size:14.5px;font-weight:600;color:var(--txt-1);}
-.check a{color:var(--txt-1);text-decoration:underline;text-underline-offset:2px;}
+.check a{color:var(--txt-1);text-decoration:underline;text-underline-offset:2px;white-space:nowrap;}
 
 /* ============================================================
    AUTH — 로그인 / 회원가입
