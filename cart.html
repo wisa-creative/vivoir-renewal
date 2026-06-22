@@ -38,6 +38,7 @@
 /* 카트 툴바 */
 .cart-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--line);margin-bottom:4px;}
 .cart-toolbar .ci-check-wrap{font-size:14px;font-weight:600;color:var(--txt-1);}
+.cart-pay-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
 .btn-text{background:transparent;border:none;color:var(--txt-3);font-family:inherit;font-size:13.5px;cursor:pointer;padding:6px 10px;border-radius:8px;transition:.2s cubic-bezier(.22,.61,.36,1);}
 .btn-text:hover{color:var(--txt-1);background:var(--bg-2);}
 @media (max-width:599px){
@@ -196,6 +197,14 @@
             <div class="sum-row"><span>배송비</span><b id="sumShip">무료</b></div>
             <div class="sum-total"><span>결제예정금액</span><b id="sumTotal">0원</b></div>
             <a class="btn btn-block" href="checkout.html" id="checkout">주문하기</a>
+            <!-- 간편결제 -->
+            <div class="cart-pay-row">
+              <button class="btn-pay npay" type="button" data-pay><b>N</b>pay 구매</button>
+              <button class="btn-pay kko" type="button" data-pay>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6-.2.6-.7 2.3-.8 2.7 0 0 0 .2.1.3h.3c.4-.1 2.6-1.7 3.5-2.4.5.1 1.1.1 1.7.1 5 0 9-3.2 9-7.1S17 4 12 4Z"/></svg>
+                카카오페이
+              </button>
+            </div>
             <p class="sum-note">본 페이지는 리뉴얼 시안으로,<br>실제 결제는 진행되지 않습니다.</p>
           </div>
         </aside>
@@ -435,6 +444,10 @@ const fmt = n => n.toLocaleString('ko-KR');
       showToast('주문할 상품을 선택해 주세요');
     }
   });
+
+  /* 간편결제 (네이버페이·카카오페이) — 시안 토스트 */
+  document.querySelectorAll('[data-pay]').forEach(b =>
+    b.addEventListener('click', () => showToast('간편결제는 준비 중인 시안이에요 — 실제 결제는 진행되지 않아요')));
 
   render();
 })();
