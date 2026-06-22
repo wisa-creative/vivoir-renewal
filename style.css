@@ -549,6 +549,19 @@ body:has(.buybar.show) .kakao{bottom:104px;}
   .gnb:not(.solid):not(.scrolled) .logo svg{color:#fff !important;fill:#fff !important;}
   /* 메인 스크롤 시 배경을 더 진하게 → 사파이어 로고 명확 */
   .gnb.scrolled:not(.solid){background:rgba(255,255,255,0.96) !important;}
+  /* 햄버거 메뉴 열렸을 때: 헤더 강제 솔리드 (배경 흰색, 로고 사파이어, promo/topbar 접힘) */
+  .gnb:has(+ .mnav.open){
+    background:rgba(255,255,255,0.98) !important;
+    backdrop-filter:saturate(140%) blur(16px);
+    color:var(--txt-1) !important;
+    border-bottom:1px solid var(--line) !important;
+    box-shadow:var(--shadow-sm) !important;
+  }
+  .gnb:has(+ .mnav.open) .logo,
+  .gnb:has(+ .mnav.open) .logo svg{color:var(--accent) !important;fill:var(--accent) !important;}
+  .gnb:has(+ .mnav.open) .promo-bar,
+  .gnb:has(+ .mnav.open) .topbar{height:0 !important;opacity:0 !important;border-bottom-width:0 !important;}
+  .mnav.open{top:60px;}
 }
 /* Phone */
 @media (max-width:599px){
