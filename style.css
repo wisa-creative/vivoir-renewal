@@ -519,14 +519,19 @@ body:has(.buybar.show) .kakao{bottom:104px;}
 /* Small tablet / large phone */
 @media (max-width:767px){
   .nav{display:none;}
-  .gnb-util .util-extra[aria-label="마이페이지"]{display:none;}
   .topbar{display:none;}
-  .menu-toggle{display:flex;}
   .mnav{display:flex;}
-  .gnb-inner{height:60px;gap:12px;}
   .hero-content p{max-width:none;}
   .stats{gap:32px 22px;}
   .stat + .stat::before{display:none;}
+  /* 모바일 헤더: 좌측 햄버거 + 중앙 로고 + 우측 검색·장바구니 */
+  .gnb-inner{height:60px;display:flex;align-items:center;gap:4px;}
+  .gnb-util{display:contents;}
+  .menu-toggle{display:flex;order:-2;}
+  .logo{order:-1;flex:1;display:flex;justify-content:center;margin:0;}
+  .gnb-util .util-extra[aria-label="검색"]{order:1;}
+  .gnb-util .util-extra[aria-label="마이페이지"]{display:none;}
+  #cartBtn{order:2;}
 }
 /* Phone */
 @media (max-width:599px){
