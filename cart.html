@@ -43,12 +43,12 @@
 @media (max-width:599px){
   .cart-item{
     grid-template-columns:22px 70px 1fr auto !important;
-    grid-template-rows:auto auto auto auto !important;
+    grid-template-rows:auto auto 1fr auto !important;
     grid-template-areas:
-      "check thumb name remove"
-      "check thumb opt remove"
+      "check thumb name  remove"
+      "check thumb opt   remove"
       "check thumb price remove"
-      "check thumb qty remove" !important;
+      ".     .     qty   .     " !important;
     column-gap:10px !important;
     row-gap:2px !important;
     align-items:start !important;
@@ -62,13 +62,14 @@
   .cart-item .ci-price{
     grid-area:price !important;
     justify-self:start !important;
+    align-self:end !important;
     font-size:15px !important;
     font-weight:700 !important;
     color:var(--txt-1) !important;
-    margin:4px 0 0 !important;
+    margin:0 !important;
     text-align:left !important;
   }
-  .cart-item .ci-info .qty{grid-area:qty;justify-self:start !important;margin-top:6px !important;}
+  .cart-item .ci-info .qty{grid-area:qty;justify-self:start !important;margin-top:10px !important;}
   .cart-item .ci-remove{grid-area:remove;align-self:start;margin-top:0 !important;padding:0 !important;}
 }
 </style>
