@@ -544,6 +544,11 @@ body:has(.buybar.show) .kakao{bottom:104px;}
   /* mnav 위치: 프로모션 띠(34) + 헤더(60) = 94px, 스크롤 시 헤더만(60) */
   .mnav{top:94px;}
   .gnb.scrolled ~ .mnav{top:60px;}
+  /* 메인(투명 헤더) 모바일 로고를 흰색으로 강제 — 어두운 히어로 위 가독성 */
+  .gnb:not(.solid):not(.scrolled) .logo,
+  .gnb:not(.solid):not(.scrolled) .logo svg{color:#fff !important;fill:#fff !important;}
+  /* 메인 스크롤 시 배경을 더 진하게 → 사파이어 로고 명확 */
+  .gnb.scrolled:not(.solid){background:rgba(255,255,255,0.96) !important;}
 }
 /* Phone */
 @media (max-width:599px){
