@@ -524,13 +524,20 @@ body:has(.buybar.show) .kakao{bottom:104px;}
   .hero-content p{max-width:none;}
   .stats{gap:32px 22px;}
   .stat + .stat::before{display:none;}
-  /* 모바일 헤더: 좌측 햄버거 + 중앙 로고 + 우측 검색·장바구니 */
-  .gnb-inner{height:60px;display:flex;align-items:center;gap:0;padding:0 8px;}
+  /* 모바일 헤더: 좌측 햄버거 + 중앙 로고(절대 중앙) + 우측 검색·장바구니 */
+  .gnb-inner{position:relative;height:60px;display:flex;align-items:center;gap:0;padding:0 8px;}
   .gnb-inner .icon-btn{width:40px;height:40px;}
   .gnb-util{display:contents;}
   .menu-toggle{display:flex;order:-2;}
-  .logo{order:-1;flex:1;display:flex;justify-content:center;margin:0;}
-  .gnb-util .util-extra[aria-label="검색"]{order:1;margin-right:-4px;}
+  /* 햄버거 회색 동그라미(호버 배경) 제거 */
+  .menu-toggle,
+  .menu-toggle:hover,
+  .menu-toggle:focus,
+  .menu-toggle:active{background:transparent !important;}
+  /* 로고는 화면 정중앙 고정 (좌우 비대칭에 영향 X) */
+  .logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);flex:none;margin:0;order:0;}
+  /* 우측 그룹은 margin-left:auto로 우측 끝 */
+  .gnb-util .util-extra[aria-label="검색"]{order:1;margin-left:auto;margin-right:-4px;}
   .gnb-util .util-extra[aria-label="마이페이지"]{display:none;}
   #cartBtn{order:2;}
   /* mnav 위치: 프로모션 띠(34) + 헤더(60) = 94px, 스크롤 시 헤더만(60) */
