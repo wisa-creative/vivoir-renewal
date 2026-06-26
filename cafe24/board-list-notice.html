@@ -1,0 +1,209 @@
+<!-- =====================================================================
+  비브아 리뉴얼 — 카페24 공지사항 게시판 list.html 스킨
+  ---------------------------------------------------------------------
+  사용법 (스마트디자인 웹 편집기)
+  1) 관리자 > 게시판 > 게시판 관리 > 공지사항(board_no=1)의 사용 스킨 확인
+     (보통 /board/free/list.html 또는 /board/notice/list.html)
+  2) 디자인 > 디자인 보관함 > 편집하기 > 좌측 메뉴 "게시판" > 해당 list.html 열기
+  3) 이 파일의 <!--@layout(/layout/basic/layout.html)--> 아래부터 끝까지를
+     기존 list.html 본문 자리에 통째로 붙여넣기 (layout 선언은 기존 것 유지)
+  4) 카페24 게시판 변수({$subject}, {$writer}, {$date}, {$num}, {$icon_new},
+     {$cate_name}, {$link_product_detail}, {$paginate}, $count 등)는 그대로 사용
+===================================================================== -->
+
+<!--@layout(/layout/basic/layout.html)-->
+
+<style>
+/* =====================================================================
+   비브아 공지사항 게시판 — 인라인 스타일 (layout css와 독립적으로 동작)
+   다른 페이지의 .board / .crumb / .page-hero 스타일과 충돌 안 나도록
+   .vv-notice 스코프로 한정
+   ===================================================================== */
+.vv-notice{--accent:#0F52BA;--ink:#0a0a0a;--txt-1:#1a1a1a;--txt-2:#4a4a4a;--txt-3:#8c8c8c;--txt-4:#bcbcbc;--line:#e7e7e7;--bg-1:#fafafa;--bg-2:#f4f4f4;--band:#f5f6fb;--band-2:#eef2fb;--orange:#ff7a45;--r-md:16px;--r-sm:8px;--r-full:999px;--ease:cubic-bezier(.22,.61,.36,1);--t-fast:.2s;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--txt-1);}
+.vv-notice *,.vv-notice *::before,.vv-notice *::after{box-sizing:border-box;}
+.vv-notice .vv-wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px);}
+
+/* 빵부스러기 */
+.vv-notice .vv-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:12.5px;color:var(--txt-3);padding:26px 0 0;letter-spacing:.01em;}
+.vv-notice .vv-crumb a{color:var(--txt-3);text-decoration:none;transition:color var(--t-fast) var(--ease);}
+.vv-notice .vv-crumb a:hover{color:var(--txt-1);}
+.vv-notice .vv-crumb .vv-csep{color:var(--txt-4);}
+.vv-notice .vv-crumb .vv-here{color:var(--txt-1);font-weight:500;}
+
+/* 페이지 헤더 */
+.vv-notice .vv-hero{padding:clamp(40px,6vw,84px) 0 clamp(34px,4.4vw,58px);}
+.vv-notice .vv-hero .vv-eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:inline-block;margin-bottom:18px;}
+.vv-notice .vv-hero h1{font-weight:500;font-size:clamp(30px,4.6vw,58px);line-height:1.1;letter-spacing:-.04em;margin:0;}
+.vv-notice .vv-hero .vv-lead{margin-top:22px;font-size:clamp(15px,1.35vw,17px);color:var(--txt-2);line-height:1.8;max-width:560px;}
+
+/* 카테고리 칩 */
+.vv-notice .vv-cat-filter{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:clamp(18px,2.2vw,28px);}
+.vv-notice .vv-cat-filter a{display:inline-flex;align-items:center;height:42px;padding:0 20px;border-radius:var(--r-full);border:1px solid var(--line);background:transparent;font-size:13.5px;font-weight:600;color:var(--txt-2);text-decoration:none;letter-spacing:.01em;cursor:pointer;transition:all var(--t-fast) var(--ease);}
+.vv-notice .vv-cat-filter a:hover{border-color:var(--accent);color:var(--accent);}
+.vv-notice .vv-cat-filter a.on,.vv-notice .vv-cat-filter a.selected{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(15,82,186,.18);}
+
+/* 게시판 테이블 (table 마크업 그대로지만 시각적으로는 list 형태) */
+.vv-notice .vv-board{border-top:1.5px solid var(--ink);width:100%;border-collapse:collapse;}
+.vv-notice .vv-board thead{display:block;border-bottom:1px solid var(--line);}
+.vv-notice .vv-board thead tr{display:flex;align-items:center;gap:18px;padding:15px 8px;}
+.vv-notice .vv-board thead th{font-size:13px;font-weight:700;color:var(--txt-3);letter-spacing:.02em;text-align:left;padding:0;border:0;background:transparent;}
+.vv-notice .vv-board thead th.vv-th-cat{flex:0 0 auto;width:72px;}
+.vv-notice .vv-board thead th.vv-th-title{flex:1;}
+.vv-notice .vv-board thead th.vv-th-date{flex:0 0 auto;width:104px;text-align:right;}
+.vv-notice .vv-board tbody{display:block;}
+.vv-notice .vv-board tbody tr{display:flex;align-items:center;gap:18px;padding:22px 8px;border-bottom:1px solid var(--line);transition:background var(--t-fast) var(--ease);}
+.vv-notice .vv-board tbody tr:hover{background:var(--bg-2);}
+.vv-notice .vv-board tbody tr.vv-pinned{background:var(--band);}
+.vv-notice .vv-board td{padding:0;border:0;background:transparent;}
+.vv-notice .vv-td-cat{flex:0 0 auto;width:72px;}
+.vv-notice .vv-cat-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.02em;padding:6px 13px;border-radius:var(--r-full);background:var(--band-2);color:var(--accent);}
+.vv-notice .vv-cat-tag.vv-cat-notice{background:#fff;color:var(--ink);border:1px solid var(--line);}
+.vv-notice .vv-td-title{flex:1;min-width:0;}
+.vv-notice .vv-td-title a{font-size:15.5px;font-weight:600;letter-spacing:-.02em;color:var(--txt-1);display:flex;align-items:center;gap:9px;text-decoration:none;}
+.vv-notice .vv-td-title a:hover{color:var(--accent);}
+.vv-notice .vv-td-title .vv-new{font-size:10px;font-weight:800;color:#fff;background:var(--orange);border-radius:var(--r-sm);padding:2px 6px;letter-spacing:.02em;}
+.vv-notice .vv-td-date{flex:0 0 auto;width:104px;text-align:right;font-size:13px;color:var(--txt-3);}
+
+/* 페이지네이션 */
+.vv-notice .vv-pager{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:clamp(36px,4vw,52px);flex-wrap:wrap;}
+.vv-notice .vv-pager a,.vv-notice .vv-pager span,.vv-notice .vv-pager strong{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 6px;border-radius:var(--r-md);font-size:14px;font-weight:600;color:var(--txt-2);border:1px solid transparent;text-decoration:none;transition:all var(--t-fast) var(--ease);}
+.vv-notice .vv-pager a:hover{background:var(--bg-2);color:var(--txt-1);}
+.vv-notice .vv-pager strong,.vv-notice .vv-pager .this{background:var(--accent);color:#fff;}
+.vv-notice .vv-pager .vv-nav-btn{border-color:var(--line);}
+.vv-notice .vv-pager .vv-nav-btn:hover{border-color:var(--ink);background:var(--bg-1);}
+
+/* 검색 박스 */
+.vv-notice .vv-search{display:flex;justify-content:flex-end;margin-bottom:clamp(14px,1.6vw,22px);gap:8px;}
+.vv-notice .vv-search select,.vv-notice .vv-search input{height:42px;padding:0 14px;border:1px solid var(--line);border-radius:var(--r-md);font-size:13.5px;font-family:inherit;color:var(--txt-1);background:#fff;outline:none;transition:border-color var(--t-fast) var(--ease);}
+.vv-notice .vv-search select:focus,.vv-notice .vv-search input:focus{border-color:var(--accent);}
+.vv-notice .vv-search input{width:240px;}
+.vv-notice .vv-search button{height:42px;padding:0 22px;border:0;border-radius:var(--r-md);background:var(--ink);color:#fff;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background var(--t-fast) var(--ease);}
+.vv-notice .vv-search button:hover{background:var(--accent);}
+
+/* 글쓰기 버튼 */
+.vv-notice .vv-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:clamp(16px,2vw,24px);}
+.vv-notice .vv-btn-write{display:inline-flex;align-items:center;height:44px;padding:0 22px;border-radius:var(--r-full);background:var(--ink);color:#fff;font-size:14px;font-weight:600;text-decoration:none;transition:background var(--t-fast) var(--ease);}
+.vv-notice .vv-btn-write:hover{background:var(--accent);}
+
+/* 게시글 없음 */
+.vv-notice .vv-empty{padding:80px 20px;text-align:center;color:var(--txt-3);font-size:14.5px;border-bottom:1px solid var(--line);}
+
+/* 모바일 */
+@media (max-width:767px){
+  .vv-notice .vv-board thead{display:none;}
+  .vv-notice .vv-board tbody tr{flex-wrap:wrap;gap:10px 14px;padding:18px 6px;}
+  .vv-notice .vv-td-cat{order:1;width:auto;}
+  .vv-notice .vv-td-title{order:2;flex-basis:100%;}
+  .vv-notice .vv-td-date{order:3;width:auto;text-align:left;}
+  .vv-notice .vv-cat-filter{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .vv-notice .vv-cat-filter::-webkit-scrollbar{display:none;}
+  .vv-notice .vv-search{flex-wrap:wrap;justify-content:stretch;}
+  .vv-notice .vv-search input{flex:1;width:auto;min-width:0;}
+  .vv-notice .vv-pager a,.vv-notice .vv-pager span,.vv-notice .vv-pager strong{min-width:38px;height:38px;font-size:13px;}
+}
+</style>
+
+<main class="vv-notice">
+
+  <!-- 빵부스러기 -->
+  <div class="vv-wrap">
+    <nav class="vv-crumb" aria-label="현재 위치">
+      <a href="/">홈</a><span class="vv-csep">/</span>
+      <span class="vv-here">공지사항</span>
+    </nav>
+  </div>
+
+  <!-- 페이지 헤더 -->
+  <div class="vv-wrap">
+    <header class="vv-hero">
+      <span class="vv-eyebrow">Notice</span>
+      <h1>공지사항</h1>
+      <p class="vv-lead">비브아의 새로운 소식과 배송·이벤트 안내를 확인하세요.</p>
+    </header>
+  </div>
+
+  <!-- 게시판 본문 -->
+  <section style="padding-top:clamp(8px,1.5vw,18px);padding-bottom:clamp(60px,8vw,120px);">
+    <div class="vv-wrap">
+
+      <!-- 카페24 게시판 카테고리 (분류) — board 분류가 등록돼 있어야 노출 -->
+      <div class="xans-element- xans-board xans-board-category vv-cat-filter">
+        <a href="{$href_all}" class="{$class_select_all}">전체</a>
+        <!--@css(/board/listcategory.html)-->
+        <a href="{$href}" class="{$class_select}">{$cate_name}</a>
+        <!--@end-->
+      </div>
+
+      <!-- 카페24 게시판 검색 -->
+      <form id="vvNoticeSearch" class="vv-search" onsubmit="return board_search.search(this);">
+        <select name="search">
+          <option value="subject">제목</option>
+          <option value="content">내용</option>
+          <option value="subject_content">제목+내용</option>
+          <option value="writer">글쓴이</option>
+        </select>
+        <input type="text" name="keyword" value="{$keyword}" placeholder="찾으시는 키워드를 입력해 보세요" />
+        <button type="submit">검색</button>
+      </form>
+
+      <!-- 게시판 리스트 -->
+      <table class="vv-board" role="table">
+        <thead>
+          <tr>
+            <th class="vv-th-cat" scope="col">분류</th>
+            <th class="vv-th-title" scope="col">제목</th>
+            <th class="vv-th-date" scope="col">등록일</th>
+          </tr>
+        </thead>
+
+        <!-- 공지글 (상단 고정) -->
+        <tbody class="xans-element- xans-board xans-board-listheader-1 xans-board-listheader">
+          <tr class="xans-record- vv-pinned">
+            <td class="vv-td-cat"><span class="vv-cat-tag vv-cat-notice">공지</span></td>
+            <td class="vv-td-title"><a href="{$link_product_detail}">{$subject} {$icon_new}</a></td>
+            <td class="vv-td-date">{$date}</td>
+          </tr>
+        </tbody>
+
+        <!-- 일반 게시글 -->
+        <tbody class="xans-element- xans-board xans-board-listitem-1 xans-board-listitem">
+          <tr class="xans-record-">
+            <td class="vv-td-cat"><span class="vv-cat-tag">{$cate_name}</span></td>
+            <td class="vv-td-title"><a href="{$link_product_detail}">{$subject} {$icon_new}</a></td>
+            <td class="vv-td-date">{$date}</td>
+          </tr>
+        </tbody>
+
+        <!-- 게시글이 없을 때 -->
+        <tbody class="xans-element- xans-board xans-board-emptylist">
+          <tr>
+            <td class="vv-empty" colspan="3">등록된 게시글이 없습니다.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <div class="xans-element- xans-board xans-board-paging vv-pager">
+        <!--$paginate-->
+      </div>
+
+      <!-- 글쓰기 버튼 (관리자 / 비회원도 글 쓸 수 있게 설정한 경우만 노출) -->
+      <div class="xans-element- xans-board xans-board-buttonlist vv-actions">
+        <a href="{$link_product_write}" class="vv-btn-write">글쓰기</a>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* 카테고리 칩 'on' 활성화 보정 — 카페24가 selected 클래스를 줘도 호환되게 */
+(function(){
+  var cat = document.querySelector('.vv-notice .vv-cat-filter');
+  if(!cat) return;
+  cat.querySelectorAll('a').forEach(function(a){
+    if(a.classList.contains('selected')) a.classList.add('on');
+  });
+})();
+</script>
