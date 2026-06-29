@@ -39,9 +39,9 @@
   <!-- 충전 모션: 블루 화면 정착 후 에너지가 0→100% 차오름 (사이트 입장 = 완충) -->
   <div class="wm wm-charge">
     <div class="charge-box">
-      <span class="charge-label">나를 위한 충전</span>
+      <span class="charge-cap">나를 위한 충전</span>
+      <span class="charge-num"><b class="charge-pct">0</b><i>%</i></span>
       <div class="charge-bar"><span class="charge-fill"></span></div>
-      <span class="charge-meta">Energy Refill <b class="charge-pct">0%</b></span>
     </div>
   </div>
 </div>
@@ -235,43 +235,6 @@
   </div>
 </section>
 
-<!-- For-you recommend -->
-<section id="recommend" class="band reveal">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">For You</span>
-      <h2>이런 분께 추천해요</h2>
-      <p class="desc">하루의 피로가 쌓이는 곳은 사람마다 다르니까요.</p>
-    </div>
-    <div class="rec-grid">
-      <div class="rec">
-        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></div>
-        <h4>잠들기까지<br>오래 뒤척이는 분</h4>
-        <p>자기 전 15분의 진동 루틴으로 몸의 긴장을 풀고 더 편안하게 잠들어 보세요.</p>
-        <a href="product.html" class="tlink">수면루틴 베개 <span class="ar">→</span></a>
-      </div>
-      <div class="rec">
-        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20.5h8M12 16.5v4"/></svg></div>
-        <h4>하루 종일<br>앉아서 일하는 분</h4>
-        <p>굳은 목과 어깨를 온열과 입체 주무름으로 그때그때 가볍게 풀어줘요.</p>
-        <a href="product.html" class="tlink">목 어깨 베개 <span class="ar">→</span></a>
-      </div>
-      <div class="rec">
-        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10M12 10V4.5a1.5 1.5 0 0 1 3 0V11M15 11V6.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6 6 6 0 0 1-5.2-3l-2.3-4a1.6 1.6 0 0 1 2.5-2L9 12"/></svg></div>
-        <h4>손목·손이<br>자주 무거운 분</h4>
-        <p>장갑처럼 끼면 손가락 마디까지 부드럽게 감싸 하루의 피로를 풀어줘요.</p>
-        <a href="product.html" class="tlink">손모아 장갑 <span class="ar">→</span></a>
-      </div>
-      <div class="rec">
-        <div class="rec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8"/><rect x="2.5" y="7.5" width="19" height="4.5" rx="1"/><path d="M12 7.5V21M12 7.5S10.5 3.5 8 4.2 12 7.5 12 7.5ZM12 7.5s1.5-4 4-3.3S12 7.5 12 7.5Z"/></svg></div>
-        <h4>부모님 선물을<br>고민하는 분</h4>
-        <p>매일 쓰시는 선물이 좋으니까. 부모님이 가장 오래 곁에 두시는 효도 베스트예요.</p>
-        <a href="#best" class="tlink">베스트 보기 <span class="ar">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Parallax statement -->
 <section class="parallax bleed reveal" aria-label="브랜드 무드">
   <div class="parallax-bg" id="pxBg" style="background-image:url('https://vivoir.kr/web/product/medium/202602/7883bb206caac654cab09fa371aec8f7.jpg');"></div>
@@ -381,9 +344,10 @@
   const cFill = intro.querySelector('.charge-fill');
   const cPct  = intro.querySelector('.charge-pct');
   const cBox  = intro.querySelector('.wm-charge');
-  const cLabel= intro.querySelector('.charge-label');
+  const cCap  = intro.querySelector('.charge-cap');
   if(cFill && cPct){
-    const START = 6300, DUR = 1500, ease = t => 1 - Math.pow(1 - t, 3);
+    const START = 6300, DUR = 1600;
+    const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;   // easeInOutCubic — 부드러운 S커브
     setTimeout(() => {
       if(done) return;
       let t0 = null;
@@ -392,12 +356,12 @@
         if(t0 === null) t0 = now;                         // 첫 프레임에서 시작점 고정 (백그라운드 탭 복귀에도 정상 재생)
         const t = Math.min(1, (now - t0) / DUR), e = ease(t);
         cFill.style.width = (e * 100) + '%';
-        cPct.textContent  = Math.round(e * 100) + '%';
+        cPct.textContent  = Math.round(e * 100);          // 숫자만 (% 는 마크업의 <i>)
         if(t < 1){ requestAnimationFrame(step); }
         else {
-          if(cLabel) cLabel.textContent = '충전 완료';
+          if(cCap) cCap.textContent = '충전 완료';
           if(cBox) cBox.classList.add('is-full');
-          setTimeout(dismiss, 850);                       // 완충 → 자동으로 홈으로 전환
+          setTimeout(dismiss, 900);                       // 완충 → 자동으로 홈으로 전환
         }
       };
       requestAnimationFrame(step);
